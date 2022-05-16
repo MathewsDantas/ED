@@ -18,17 +18,18 @@ public class VermelhaPreta implements IPilha{
     @Override
     public void v_push(Object o) {
         if((v_size() + p_size()) >= capacidade-1) {
-            int cap_aux = capacidade;
+            int cap_antiga = capacidade;
             capacidade*=2;
+            int cap_aux = capacidade;
             Object[] p2 = new Object[capacidade];
 
-            for(int i = 0; i <v_size(); i++) {
+            for(int i = 0; i <(tam_vermelha + 1); i++) {
                 p2[i] = p[i];
             }
-            for(int i = (cap_aux-1); i <p_size(); i--) {
-                p2[--capacidade] = p[i];
+            for(int i = (cap_antiga-1); i >(cap_antiga-tam_preta); i--) {
+                p2[--cap_aux] = p[i];
             }
-            tam_preta = capacidade - (cap_aux-tam_preta);
+            tam_preta = capacidade - (cap_antiga-tam_preta); // passa o novo indice que o top da preta está
             p = p2;
         }
         p[++tam_vermelha] = o;
@@ -36,18 +37,19 @@ public class VermelhaPreta implements IPilha{
 
     @Override
     public void p_push(Object o) {
-        if((v_size() + p_size()) >= capacidade-1) {
-            int cap_aux = capacidade;
+        if(size() >= capacidade-1) {
+            int cap_antiga = capacidade;
             capacidade*=2;
+            int cap_aux = capacidade;
             Object[] p2 = new Object[capacidade];
 
-            for(int i = 0; i <size(); i++) {
+            for(int i = 0; i <(tam_vermelha + 1); i++) {
                 p2[i] = p[i];
             }
-            for(int i = (cap_aux-1); i <p_size(); i--) {
-                p2[--capacidade] = p[i];
+            for(int i = (cap_antiga-1); i >(cap_antiga-tam_preta); i--) {
+                p2[--cap_aux] = p[i];
             }
-            tam_preta = capacidade - (cap_aux-tam_preta);//nova capacidade - tamanho da pilha preta.
+            tam_preta = capacidade - (cap_antiga-tam_preta);//nova capacidade - tamanho da pilha preta.
             p = p2;
         }
         p[--tam_preta] = o;
@@ -55,12 +57,18 @@ public class VermelhaPreta implements IPilha{
 
     @Override
     public Object v_pop() throws PilhaVaziaException {
+        if(isEmpty()) {
+            throw new PilhaVaziaException("A pilha está vazia");
+        }
         tam_vermelha--;
         return p[tam_vermelha+1];
     }
 
     @Override
     public Object p_pop() throws PilhaVaziaException {
+        if(isEmpty()) {
+            throw new PilhaVaziaException("A pilha está vazia");
+        }
         tam_preta++;
         return p[tam_preta-1];
     }
@@ -68,7 +76,7 @@ public class VermelhaPreta implements IPilha{
     @Override
     public Object v_top() throws PilhaVaziaException {
         if(v_isEmpty()) {
-            throw new PilhaVaziaException("A pilha est� vazia");
+            throw new PilhaVaziaException("A pilha está vazia");
         }
         return p[tam_vermelha];
     }
@@ -76,7 +84,7 @@ public class VermelhaPreta implements IPilha{
     @Override
     public Object p_top() throws PilhaVaziaException {
         if(p_isEmpty()) {
-            throw new PilhaVaziaException("A pilha est� vazia");
+            throw new PilhaVaziaException("A pilha está vazia");
         }
         return p[tam_preta];
     }
@@ -109,5 +117,26 @@ public class VermelhaPreta implements IPilha{
     @Override
     public int p_size() {
         return (capacidade - tam_preta);
+    }
+
+    @Override
+    public void print() {
+        for(int i = 0; i < capacidade; i++) {
+            System.out.println(p[i]);
+        }
+    }
+
+    @Override
+    public void v_print() {
+        for(int i = 0; i <= tam_vermelha; i++) {
+            System.out.println(p[i]);
+        }
+    }
+
+    @Override
+    public void p_print() {
+        for(int i = (capacidade-1); i >=tam_preta; i--) {
+            System.out.println(p[i]);
+        }
     }
 }

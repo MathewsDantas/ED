@@ -26,4 +26,10 @@ public interface IPilha {
     int v_size();
 
     int p_size();
+
+    void print();
+
+    void v_print();
+
+    void p_print();
 }
