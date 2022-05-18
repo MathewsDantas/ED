@@ -16,10 +16,11 @@ public class FilaArray implements IFila{
         this.fila = new Object[capacidade];
     }
 
-
-    @Override
     public void enqueue(Object o) {
-        if (size() == capacidade - 1){
+        if(size() == capacidade - 1) {
+            int cap_antiga = capacidade;
+            int size_antiga = size();
+            int aux_incio = inicio;
             if(FC == 0) {
                 capacidade*=2;
             }
@@ -27,14 +28,16 @@ public class FilaArray implements IFila{
                 capacidade = capacidade + FC;
             }
             Object[] fila2 = new Object[capacidade];
-            for (int i=0; i <= size(); i++){
-                fila2[i] = fila[i];
+            for (int i=0;i<size_antiga;i++) {
+                fila2[i] = fila[aux_incio];
+                aux_incio = (aux_incio+1)%cap_antiga;
             }
             fila = fila2;
+            inicio = 0;
+            fim = size_antiga;
         }
         fila[fim] = o;
-        System.out.println("fim = "+fim +" capacidade = "+capacidade);
-        fim = (fim + 1) % capacidade;
+        fim = (fim+1)%capacidade;
     }
 
     @Override
@@ -65,4 +68,14 @@ public class FilaArray implements IFila{
     public boolean isEmpty() {
         return inicio == fim;
     }
+
+    @Override
+    public void print() {
+        int aux = inicio;
+        for (int i = 0; i <size() ; i++){
+            System.out.println("indice: "+aux+" = "+fila[aux]);
+            aux = (aux + 1) % capacidade;
+        }
+    }
+
 }

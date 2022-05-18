@@ -19,6 +19,5 @@ public class TestPilha {
         p.v_print();
         System.out.println("Pilha preta: ");
         p.p_pop();
-        p.p_print();
     }
 }
