@@ -12,12 +12,14 @@ public class TestPilha {
         p.p_push(100);
         p.p_push(200);
         p.p_push(300);
+        p.v_push(20);
+        p.v_push(30);
         System.out.println("Array inteiro: ");
         p.print();
         System.out.println("Pilha vermelha: ");
         p.v_pop();
         p.v_print();
         System.out.println("Pilha preta: ");
-        p.p_pop();
+        p.p_print();
     }
 }
