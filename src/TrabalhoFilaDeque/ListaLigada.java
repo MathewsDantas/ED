@@ -1,9 +1,5 @@
 package TrabalhoFilaDeque;
 
-
-import fila.FilaVaziaException;
-import pilha.PilhaVaziaException;
-
 public class ListaLigada implements IListaFila,IListaPilha{
 	private No primeiro;
 	private No ultimo;
@@ -121,5 +117,18 @@ public class ListaLigada implements IListaFila,IListaPilha{
 			System.out.println("Posição: " + i + " Valor: " + elemento.getValor());
 			elemento = elemento.getProximo();
 		}
+	}
+
+	//------------------FilaComDuasPilhas--------------------------
+	public ListaLigada invertLista(){
+		ListaLigada pilhaInvertida = new ListaLigada();
+		No antigo_primeiro = primeiro;
+
+		for (int i = 0; i < tamanho; i++){
+			pilhaInvertida.push(antigo_primeiro.getValor());
+			antigo_primeiro = antigo_primeiro.getProximo();
+		}
+
+		return pilhaInvertida;
 	}
 }

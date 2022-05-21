@@ -18,6 +18,7 @@ public class TestPilha {
 			System.out.println("Erro: "+err.getMessage());
 		}
 		P1.push(60);
+		P1.push(80);
 		System.out.println("Pilha:");
 		P1.mostra();
 		P1.invert();
