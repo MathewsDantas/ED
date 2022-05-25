@@ -56,9 +56,6 @@ public class FilaLigada implements IListaFila{
 
     @Override
     public Object dequeue() {
-        if (isEmpty()){
-            throw new FilaVaziaException("Vazia");
-        }
         No aux = primeiro;
         primeiro = aux.getProximo();
         tamanho--;
@@ -67,9 +64,6 @@ public class FilaLigada implements IListaFila{
 
     @Override
     public Object first() {
-        if (isEmpty()){
-            throw new FilaVaziaException("Vazia");
-        }
         return primeiro.getValor();
     }
 

@@ -5,12 +5,12 @@ import TrabalhoFilaDeque.FilaLista.FilaVaziaException;
 import TrabalhoFilaDeque.PilhaLista.IListaPilha;
 
 public class PilhaComDuasFilas implements IListaPilha {
-    FilaLigada fila = new FilaLigada();
-    FilaLigada filaInvertida = new FilaLigada();
+    FilaLigada filaPrincipal = new FilaLigada();
+    FilaLigada filaSecundaria = new FilaLigada();
 
     @Override
     public void push(Object o) {
-        fila.enqueue(o);
+        filaPrincipal.enqueue(o);
     }
 
     @Override
@@ -18,9 +18,18 @@ public class PilhaComDuasFilas implements IListaPilha {
         if (isEmpty()) {
             throw new FilaVaziaException("A Pilha está vazia!");
         }
+
         invertFila();
-        Object aux = filaInvertida.dequeue();
-        desinvertFila();
+        Object aux = null;
+        int tamanho = filaSecundaria.size();
+        for (int i = 0; i < tamanho; i++){
+            if ( i == (tamanho-1)){
+                aux = filaSecundaria.dequeue();
+            }
+            else {
+                filaPrincipal.enqueue(filaSecundaria.dequeue());
+            }
+        }
         return aux;
     }
 
@@ -29,39 +38,50 @@ public class PilhaComDuasFilas implements IListaPilha {
         if (isEmpty()) {
             throw new FilaVaziaException("A Pilha está vazia!");
         }
+
         invertFila();
-        Object top = filaInvertida.first();
-        desinvertFila();
+        Object top = filaSecundaria.first();
+        int tamanho = filaSecundaria.size();
+        for (int i = 0; i < tamanho; i++){
+            if ( i == (tamanho-1)){
+                top = filaSecundaria.first();
+                filaPrincipal.enqueue(filaSecundaria.dequeue());
+            }
+            else {
+                filaPrincipal.enqueue(filaSecundaria.dequeue());
+            }
+
+        }
         return top;
     }
 
     @Override
     public boolean isEmpty() {
-        return fila.isEmpty();
+        return filaPrincipal.isEmpty();
     }
 
     @Override
     public int size() {
-        return fila.size();
+        return filaPrincipal.size();
     }
 
     public void print(){
+
         invertFila();
-        filaInvertida.print();
-        desinvertFila();
+        filaSecundaria.print();
+        int tamanho = filaSecundaria.size();
+        for (int i = 0; i < tamanho; i++){
+                filaPrincipal.enqueue(filaSecundaria.dequeue());
+        }
+
     }
 
     public void invertFila(){
-        int tamanho = fila.size();
-        for (int i = 0; i < tamanho; i++){
-            filaInvertida.enqueue(fila.dequeue());
-        }
-    }
 
-    public void desinvertFila(){
-        int tamanho = filaInvertida.size();
+        int tamanho = filaPrincipal.size();
         for (int i = 0; i < tamanho; i++){
-            fila.enqueue(filaInvertida.dequeue());
+            filaSecundaria.enqueue(filaPrincipal.dequeue());
         }
+
     }
 }

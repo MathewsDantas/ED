@@ -12,6 +12,11 @@ public class TestFilaComDuasPilhas {
         System.out.println("Primeiro da fila: "+ fila.first());
         System.out.println("Retirado: "+ fila.dequeue());
         System.out.println("Retirado: "+ fila.dequeue());
+        System.out.println("Retirado: "+ fila.dequeue());
+        System.out.println("Retirado: "+ fila.dequeue());
+        System.out.println("Retirado: "+ fila.dequeue());
+        System.out.println("Tamanho: "+fila.size());
+        fila.enqueue(4);
         fila.print();
         System.out.println("Primeiro da fila: "+ fila.first());
     }

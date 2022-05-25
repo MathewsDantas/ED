@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class FilaArrayList implements IFila {
 
-    private ArrayList<Object> fila = new ArrayList<Object>();
+    private ArrayList<Object> fila = new ArrayList<>();
 
     public FilaArrayList() {
         super();

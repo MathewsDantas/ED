@@ -13,7 +13,13 @@ public class TestPilhaComDuasFilas {
         pilha.print();
         System.out.println("Retirado: "+ pilha.pop());
         System.out.println("Retirado: "+ pilha.pop());
+        System.out.println("Retirado: "+ pilha.pop());
+        System.out.println("Retirado: "+ pilha.pop());
+        System.out.println("Retirado: "+ pilha.pop());
         pilha.print();
+        System.out.println("Tamanho: "+ pilha.size());
+        pilha.push(30);
+        System.out.println("Topo da pilha: "+ pilha.top());
         System.out.println("Tamanho: "+ pilha.size());
 
     }
