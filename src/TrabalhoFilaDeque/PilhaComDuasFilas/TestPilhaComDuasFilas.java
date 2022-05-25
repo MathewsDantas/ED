@@ -9,7 +9,7 @@ public class TestPilhaComDuasFilas {
         pilha.push(40);
         pilha.push(50);
         System.out.println("Tamanho: "+ pilha.size());
-        System.out.println("Primeiro da pilha: "+ pilha.top());
+        System.out.println("Topo da pilha: "+ pilha.top());
         pilha.print();
         System.out.println("Retirado: "+ pilha.pop());
         System.out.println("Retirado: "+ pilha.pop());

@@ -1,6 +1,9 @@
 package TrabalhoFilaDeque;
 
-public class ListaLigada implements IListaFila,IListaPilha{
+import TrabalhoFilaDeque.FilaLista.IListaFila;
+import TrabalhoFilaDeque.PilhaLista.IListaPilha;
+
+public class ListaLigada implements IListaFila, IListaPilha {
 	private No primeiro;
 	private No ultimo;
 	private int tamanho;
@@ -34,7 +37,7 @@ public class ListaLigada implements IListaFila,IListaPilha{
 	public void enqueue(Object o) {
 		No elemento = new No();
 		elemento.setValor(o);
-		
+
 		if(tamanho == 0) {
 			primeiro = elemento;
 			ultimo = elemento;
@@ -48,9 +51,7 @@ public class ListaLigada implements IListaFila,IListaPilha{
 
 	@Override
 	public Object dequeue(){
-		if (isEmpty()){
-			throw new ListaVaziaException("Vazia");
-		}
+
 		No aux = primeiro;
 		primeiro = aux.getProximo();
 		tamanho--;
@@ -59,9 +60,7 @@ public class ListaLigada implements IListaFila,IListaPilha{
 
 	@Override
 	public Object first(){
-		if (isEmpty()){
-			throw new ListaVaziaException("Vazia");
-		}
+
 		return primeiro.getValor();
 	}
 
@@ -88,9 +87,7 @@ public class ListaLigada implements IListaFila,IListaPilha{
 
 	@Override
 	public Object pop(){
-		if (isEmpty()){
-			throw new ListaVaziaException("Vazia");
-		}
+
 		No aux = primeiro;
 		primeiro = aux.getProximo();
 		tamanho--;
@@ -99,9 +96,7 @@ public class ListaLigada implements IListaFila,IListaPilha{
 
 	@Override
 	public Object top(){
-		if (isEmpty()){
-			throw new ListaVaziaException("Vazia");
-		}
+
 		return primeiro.getValor();
 	}
 

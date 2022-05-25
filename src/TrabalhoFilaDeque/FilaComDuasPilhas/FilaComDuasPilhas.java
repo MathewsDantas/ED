@@ -1,11 +1,12 @@
 package TrabalhoFilaDeque.FilaComDuasPilhas;
 
-import TrabalhoFilaDeque.IListaFila;
-import TrabalhoFilaDeque.ListaLigada;
+import TrabalhoFilaDeque.FilaLista.IListaFila;
+import TrabalhoFilaDeque.PilhaLista.PilhaLigada;
+import TrabalhoFilaDeque.PilhaLista.PilhaVaziaException;
 
-public class FilaComDuasPilhas implements IListaFila {
-    ListaLigada pilha = new ListaLigada();
-    ListaLigada pilhaInvertida = new ListaLigada();
+public class FilaComDuasPilhas implements IListaFila{
+    PilhaLigada pilha = new PilhaLigada();
+    PilhaLigada pilhaInvertida = new PilhaLigada();
 
     @Override
     public void enqueue(Object o) {
@@ -14,16 +15,26 @@ public class FilaComDuasPilhas implements IListaFila {
 
     @Override
     public Object dequeue() {
-        pilhaInvertida = pilha.invertLista();
-        Object aux = pilhaInvertida.pop();
-        pilha = pilhaInvertida.invertLista();
-        return aux;
+        if (pilha.isEmpty()) {
+            throw new PilhaVaziaException("A Fila está vazia!");
+        }
+        else {
+            invertPilha();
+            Object aux = pilhaInvertida.pop();
+            desinvertPilha();
+            return aux;
+        }
     }
 
     @Override
     public Object first() {
-        pilhaInvertida = pilha.invertLista();
-        return pilhaInvertida.top();
+        if (pilha.isEmpty()) {
+            throw new PilhaVaziaException("A Fila está vazia!");
+        }
+        invertPilha();
+        Object top = pilhaInvertida.top();
+        desinvertPilha();
+        return top;
     }
 
     @Override
@@ -38,8 +49,23 @@ public class FilaComDuasPilhas implements IListaFila {
 
     @Override
     public void print(){
-        pilhaInvertida = pilha.invertLista();
+        invertPilha();
         pilhaInvertida.print();
+        desinvertPilha();
+    }
+
+    public void invertPilha(){
+        int tamanho = pilha.size();
+        for (int i = 0; i < tamanho; i++){
+            pilhaInvertida.push(pilha.pop());
+        }
+    }
+
+    public void desinvertPilha(){
+        int tamanho = pilhaInvertida.size();
+        for (int i = 0; i < tamanho; i++){
+            pilha.push(pilhaInvertida.pop());
+        }
     }
 
 }

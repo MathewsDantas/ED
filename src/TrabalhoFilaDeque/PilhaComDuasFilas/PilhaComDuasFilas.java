@@ -1,12 +1,12 @@
 package TrabalhoFilaDeque.PilhaComDuasFilas;
 
-import TrabalhoFilaDeque.IListaPilha;
-import TrabalhoFilaDeque.ListaLigada;
-
+import TrabalhoFilaDeque.FilaLista.FilaLigada;
+import TrabalhoFilaDeque.FilaLista.FilaVaziaException;
+import TrabalhoFilaDeque.PilhaLista.IListaPilha;
 
 public class PilhaComDuasFilas implements IListaPilha {
-    ListaLigada fila = new ListaLigada();
-    ListaLigada filaInvertida = new ListaLigada();
+    FilaLigada fila = new FilaLigada();
+    FilaLigada filaInvertida = new FilaLigada();
 
     @Override
     public void push(Object o) {
@@ -15,16 +15,24 @@ public class PilhaComDuasFilas implements IListaPilha {
 
     @Override
     public Object pop() {
-        filaInvertida = fila.invertLista();
+        if (isEmpty()) {
+            throw new FilaVaziaException("A Pilha está vazia!");
+        }
+        invertFila();
         Object aux = filaInvertida.dequeue();
-        fila = filaInvertida.invertLista();
+        desinvertFila();
         return aux;
     }
 
     @Override
     public Object top() {
-        filaInvertida = fila.invertLista();
-        return filaInvertida.first();
+        if (isEmpty()) {
+            throw new FilaVaziaException("A Pilha está vazia!");
+        }
+        invertFila();
+        Object top = filaInvertida.first();
+        desinvertFila();
+        return top;
     }
 
     @Override
@@ -38,7 +46,22 @@ public class PilhaComDuasFilas implements IListaPilha {
     }
 
     public void print(){
-        filaInvertida = fila.invertLista();
+        invertFila();
         filaInvertida.print();
+        desinvertFila();
+    }
+
+    public void invertFila(){
+        int tamanho = fila.size();
+        for (int i = 0; i < tamanho; i++){
+            filaInvertida.enqueue(fila.dequeue());
+        }
+    }
+
+    public void desinvertFila(){
+        int tamanho = filaInvertida.size();
+        for (int i = 0; i < tamanho; i++){
+            fila.enqueue(filaInvertida.dequeue());
+        }
     }
 }
