@@ -1,5 +1,7 @@
 package TADSequencia;
 
+import ListaDuplamente.Node;
+
 public class TestSequenciaLista {
     public static void main(String[] args) throws SequenciaVaziaException {
         
@@ -26,5 +28,7 @@ public class TestSequenciaLista {
         sequence.insertBefore(2,10);
         sequence.insertAfter(0,5);
         sequence.print();
+        Node no = sequence.atRank(4);
+        System.out.println("Rank do no = "+ sequence.rankOf(no));
     }
 }

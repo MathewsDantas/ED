@@ -217,7 +217,13 @@ public class SequenciaLista implements ISequencia{
         return node_delete.getElement();
     }
 
-    public Node atRank(int rank) {
+    public Node atRank(int rank) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        if (rank < 0 || rank > n){
+            throw new SequenciaVaziaException("Fora do limite");
+        }
         Node node;
         if (rank <= size()/2) {
             node = header.getNext();
@@ -231,6 +237,21 @@ public class SequenciaLista implements ISequencia{
         }
         return node;
     }
+
+    public int rankOf(Node no) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+
+        Node no2 = header.getNext();
+        int r = 0;
+        while(no2 != no && no2 != trailer) {
+            no2 = no2.getNext();
+            r++;
+        }
+        return r;
+    }
+
 
     public void print() {
         Node node = header.getNext();
