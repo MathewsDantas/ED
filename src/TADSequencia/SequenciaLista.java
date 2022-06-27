@@ -52,6 +52,17 @@ public class SequenciaLista implements ISequencia{
         return atRank(p-1);
     }
 
+    public Object before2(Node no) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        Node no2 = header.getNext();
+        while(no2 != no && no2 != trailer) {
+            no2 = no2.getNext();
+        }
+        return no2.getPrev().getElement();
+    }
+
     @Override
     public Object after(int p) throws SequenciaVaziaException {
         if (p < 0 || p > n){
@@ -61,6 +72,17 @@ public class SequenciaLista implements ISequencia{
             throw new SequenciaVaziaException("Vazia");
         }
         return atRank(p+1);
+    }
+
+    public Object after2(Node no) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        Node no2 = header.getNext();
+        while(no2 != no && no2 != trailer) {
+            no2 = no2.getNext();
+        }
+        return no2.getNext().getElement();
     }
 
     @Override
@@ -73,6 +95,17 @@ public class SequenciaLista implements ISequencia{
         }
         Node node = atRank(p);
         node.setElement(o);
+    }
+
+    public void replaceElement2(Node no, Object o) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        Node no2 = header.getNext();
+        while(no2 != no && no2 != trailer) {
+            no2 = no2.getNext();
+        }
+        no.setElement(o);
     }
 
     @Override
@@ -90,6 +123,15 @@ public class SequenciaLista implements ISequencia{
         node2.setElement(aux);
     }
 
+    public void swapElements2(Node noA, Node noB) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        Object aux = noA.getElement();
+        noA.setElement(noB.getElement());
+        noB.setElement(aux);
+    }
+
     @Override
     public void insertBefore(int p, Object o) throws SequenciaVaziaException {
         if (p < 0 || p > n){
@@ -105,6 +147,18 @@ public class SequenciaLista implements ISequencia{
         n++;
     }
 
+    public void insertBefore2(Node no, Object o) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        Node no2 = header.getNext();
+        while(no2 != no && no2 != trailer) {
+            no2 = no2.getNext();
+        }
+        no.getPrev().setElement(o);
+    }
+
+
     @Override
     public void insertAfter(int p, Object o) throws SequenciaVaziaException {
         if (p < 0 || p > n){
@@ -118,6 +172,17 @@ public class SequenciaLista implements ISequencia{
         node.getNext().setPrev(new_node);
         node.setNext(new_node);
         n++;
+    }
+
+    public void insertAfter2(Node no, Object o) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        Node no2 = header.getNext();
+        while(no2 != no && no2 != trailer) {
+            no2 = no2.getNext();
+        }
+        no.getNext().setElement(o);
     }
 
     @Override
@@ -151,6 +216,19 @@ public class SequenciaLista implements ISequencia{
         next.setPrev(prev);
         n--;
         return node_delete.getElement();
+    }
+
+    public Object remove2(Node no) throws SequenciaVaziaException {
+        if (isEmpty()) {
+            throw new SequenciaVaziaException("Vazia");
+        }
+        Node no2 = header.getNext();
+        while(no2 != no && no2 != trailer) {
+            no2 = no2.getNext();
+        }
+        no.getNext().setPrev(no.getPrev());
+        no.getPrev().setNext(no.getNext());
+        return no.getElement();
     }
 
     @Override
@@ -251,7 +329,6 @@ public class SequenciaLista implements ISequencia{
         }
         return r;
     }
-
 
     public void print() {
         Node node = header.getNext();

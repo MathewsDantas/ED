@@ -2,7 +2,7 @@ package TADLista;
 
 import ListaDuplamente.Node;
 
-public class ListaListaEncadeada implements  ILista{
+public class ListaListaEncadeada implements ILista{
 
     private int n;
     private Node header,trailer;
