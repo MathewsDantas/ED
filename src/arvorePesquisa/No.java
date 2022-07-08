@@ -8,6 +8,10 @@ public class No {
     private No filhoDireito;
 
     public No() {
+        this.elemento = null;
+        this.pai = null;
+        this.filhoEsquerdo = null;
+        this.filhoDireito = null;
     }
 
     public No(Object elemento) {

@@ -2,8 +2,8 @@ package arvorePesquisa;
 
 public class ArvorePesquisa {
 
-    No root;
-    int size;
+    private No root;
+    private int size;
 
     public ArvorePesquisa() {
     }
@@ -83,19 +83,26 @@ public class ArvorePesquisa {
             return v;
         }
         if ( (int) k < (int) v.getElemento()){
-            return find(k, v.getFilhoEsquerdo());
+            if (hasLeft(v)){
+                return find(k, v.getFilhoEsquerdo());
+            }
+            return v;
         }
         else if ( k == v.getElemento()){
             return v;
         }
         else if ( (int) k > (int) v.getElemento()){
-            return find(v , v.getFilhoDireito());
+            if (hasRight(v)){
+                return find(k , v.getFilhoDireito());
+            }
+            return v;
         }
         return v;
     }
 
-    public void insert(Object k, No v){
+    public void insert(Object k){
         No aux = find(k, root);
+        No v = new No();
         v.setElemento(k);
         if ( (int) k <= (int) aux.getElemento()){
             aux.setFilhoEsquerdo(v);
@@ -105,6 +112,7 @@ public class ArvorePesquisa {
             aux.setFilhoDireito(v);
             v.setPai(aux);
         }
+        size++;
     }
 
     public void remove(Object k){
@@ -136,31 +144,35 @@ public class ArvorePesquisa {
                 aux.getPai().setFilhoDireito(aux.getFilhoEsquerdo());
                 aux.getFilhoEsquerdo().setPai(aux.getPai());
             }
+
         }
         else { // v possui os 2 filhos.
             No min;
             min = aux;
-            while (min.getFilhoDireito() != null){ //encontrar o menor a direita
+            min = min.getFilhoDireito();
+            while (min.getFilhoEsquerdo() != null){ //encontrar o menor a direita
                 min = min.getFilhoEsquerdo();
             }
-            aux.setElemento(min.getElemento());
+            size++;
             remove(min.getElemento());
+            aux.setElemento(min.getElemento());
         }
+        size--;
     }
 
     public void preOrder(No v) {
         if (v != null){
             System.out.println(v.getElemento());
-            inOrder(v.getFilhoEsquerdo());
-            inOrder(v.getFilhoDireito());
+            preOrder(v.getFilhoEsquerdo());
+            preOrder(v.getFilhoDireito());
         }
 
     }
 
     public void posOrder(No v){
         if (v != null){
-            inOrder(v.getFilhoEsquerdo());
-            inOrder(v.getFilhoDireito());
+            posOrder(v.getFilhoEsquerdo());
+            posOrder(v.getFilhoDireito());
             System.out.println(v.getElemento());
         }
     }
