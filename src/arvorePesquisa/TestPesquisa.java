@@ -27,8 +27,15 @@ public class TestPesquisa {
         //System.out.println("esquerdo: "+arvore.root().getFilhoEsquerdo().getElemento());
         //System.out.println("direito: "+arvore.root().getFilhoDireito().getElemento());
 
+        /*System.out.println("Profundidade da chave 9: "+arvore.depth(arvore.root().getFilhoDireito().getFilhoEsquerdo().getFilhoDireito().getFilhoDireito()));
+        System.out.println("Altura da arvore: "+arvore.height(arvore.root()));
+        arvore.remove(9);
+        System.out.println("Altura da arvore: "+arvore.height(arvore.root()));
         arvore.remove(10);
         arvore.remove(5);
-        System.out.println("Size: "+arvore.size());
+        System.out.println("Size: "+arvore.size());*/
+        System.out.println("A R V O R E:");
+        arvore.printArvore();
+
     }
 }

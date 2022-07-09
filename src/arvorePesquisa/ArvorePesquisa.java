@@ -1,5 +1,8 @@
 package arvorePesquisa;
 
+
+import java.util.ArrayList;
+
 public class ArvorePesquisa {
 
     private No root;
@@ -192,4 +195,66 @@ public class ArvorePesquisa {
     private boolean hasRight(No v){
         return v.getFilhoDireito() != null;
     }
+
+    /*public void mostraArvore(No a, int b) {
+        if (a == null) {
+            return;
+        }
+        mostraArvore(a.getFilhoDireito(), b+1);
+        imprimeNo(a.getElemento(), b);
+        mostraArvore(a.getFilhoEsquerdo(), b+1);
+    }
+
+    private void imprimeNo(Object c, int b) {
+        int i;
+        for (i = 0; i < b; i++) System.out.print("   ");
+        System.out.print("" + c + "\n");
+    }*/
+
+    public void printArvore()
+    {
+        int h = height(root);
+        double totalNos= Math.pow(2, 4);
+        for (int i = 0; i <= h; i++){
+            ArrayList<Object> lista = new ArrayList<>();
+            printProfunAtual(root, i, lista);
+            for (int j = 0; j < (totalNos*3)/(lista.size()+1); j++) {//antes do primeiro elemento da profundidade.
+                System.out.print(" ");
+            }
+            for (int k = 0; k<lista.size(); k++) {
+                if (lista.get(k) == "*" && i<h){
+                    System.out.print("*");
+                }else if(lista.get(k) != "*"){
+                    System.out.print("("+lista.get(k)+")");// por esse motivo mult por 3 lá em cima.
+                }
+                for (int j = 0; j < ((totalNos*2)/(lista.size()+1))+1; j++) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+
+    }
+
+    private void printProfunAtual(No root, int prof, ArrayList<Object> lista)
+    {
+        if (root == null && prof >0){
+            for (int i = 0; i<prof; i++){
+                lista.add("*");
+                lista.add("*");
+            }
+        }
+        if (root == null && prof == 0){
+            lista.add("*");
+        }
+        if (root == null)// verificar folhas
+            return;
+        if (prof == 0)
+            lista.add(root.getElemento());
+        else if (prof > 0) {
+            printProfunAtual(root.getFilhoEsquerdo(), prof - 1, lista);
+            printProfunAtual(root.getFilhoDireito(), prof - 1, lista);
+        }
+    }
 }
+
