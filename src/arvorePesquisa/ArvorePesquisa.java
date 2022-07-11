@@ -108,12 +108,34 @@ public class ArvorePesquisa {
         No v = new No();
         v.setElemento(k);
         if ( (int) k <= (int) aux.getElemento()){
+            if (hasLeft(aux)){
+                aux.getFilhoEsquerdo().setPai(v);
+                if ((int) aux.getFilhoEsquerdo().getElemento() <= (int) k){
+                    v.setFilhoEsquerdo(aux.getFilhoEsquerdo());
+                }
+                else {
+                    v.setFilhoDireito(aux.getFilhoEsquerdo());
+                }
+            }
+            else {
+                v.setPai(aux);
+            }
             aux.setFilhoEsquerdo(v);
-            v.setPai(aux);
         }
         else {
+            if (hasRight(aux)){
+                aux.getFilhoDireito().setPai(v);
+                if ((int) aux.getFilhoDireito().getElemento() > (int) k){
+                    v.setFilhoDireito(aux.getFilhoDireito());
+                }
+                else {
+                    v.setFilhoEsquerdo(aux.getFilhoDireito());
+                }
+            }
+            else {
+                v.setPai(aux);
+            }
             aux.setFilhoDireito(v);
-            v.setPai(aux);
         }
         size++;
     }
