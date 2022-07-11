@@ -9,8 +9,8 @@ public class TestPesquisa {
         arvore.insert(3);
         arvore.insert(10);
         arvore.insert(7);
-        arvore.insert(8);
         arvore.insert(9);
+        arvore.insert(8);
         arvore.insert(1);
 
 
@@ -34,8 +34,7 @@ public class TestPesquisa {
         arvore.remove(10);
         arvore.remove(5);
         System.out.println("Size: "+arvore.size());*/
-        System.out.println("A R V O R E:");
-        arvore.printArvore();
+        arvore.printArvore2();
 
     }
 }

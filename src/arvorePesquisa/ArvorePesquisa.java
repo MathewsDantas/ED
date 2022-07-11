@@ -218,22 +218,7 @@ public class ArvorePesquisa {
         return v.getFilhoDireito() != null;
     }
 
-    /*public void mostraArvore(No a, int b) {
-        if (a == null) {
-            return;
-        }
-        mostraArvore(a.getFilhoDireito(), b+1);
-        imprimeNo(a.getElemento(), b);
-        mostraArvore(a.getFilhoEsquerdo(), b+1);
-    }
-
-    private void imprimeNo(Object c, int b) {
-        int i;
-        for (i = 0; i < b; i++) System.out.print("   ");
-        System.out.print("" + c + "\n");
-    }*/
-
-    public void printArvore()
+    public void printArvore2()
     {
         int h = height(root);
         double totalNos= Math.pow(2, 4);
@@ -276,6 +261,33 @@ public class ArvorePesquisa {
         else if (prof > 0) {
             printProfunAtual(root.getFilhoEsquerdo(), prof - 1, lista);
             printProfunAtual(root.getFilhoDireito(), prof - 1, lista);
+        }
+    }
+
+    public void printArvore() {
+        ArrayList<Object> lista = new ArrayList<>();
+        organizador(root, lista);
+        System.out.println("A R V O R E:");
+        for(int j=0; j <= height(root); j++) {
+            for(int i = 0; i<size();i++) {
+                if(depth((No) lista.get(i)) == j) {
+                    System.out.print("(" + ((No) lista.get(i)).getElemento() + ")");
+                } else {
+                    System.out.print(" * ");
+                }
+            }
+            System.out.println();
+        }
+        lista.clear();
+    }
+
+    private void organizador(No no,  ArrayList<Object> lista) {
+        if(no.getFilhoEsquerdo() != null) {
+            organizador(no.getFilhoEsquerdo(),lista);
+        }
+        lista.add(no);
+        if(no.getFilhoDireito() != null) {
+            organizador(no.getFilhoDireito(),lista);
         }
     }
 }
