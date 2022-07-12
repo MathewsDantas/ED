@@ -108,33 +108,11 @@ public class ArvorePesquisa {
         No v = new No();
         v.setElemento(k);
         if ( (int) k <= (int) aux.getElemento()){
-            if (hasLeft(aux)){
-                aux.getFilhoEsquerdo().setPai(v);
-                if ((int) aux.getFilhoEsquerdo().getElemento() <= (int) k){
-                    v.setFilhoEsquerdo(aux.getFilhoEsquerdo());
-                }
-                else {
-                    v.setFilhoDireito(aux.getFilhoEsquerdo());
-                }
-            }
-            else {
-                v.setPai(aux);
-            }
+            v.setPai(aux);
             aux.setFilhoEsquerdo(v);
         }
         else {
-            if (hasRight(aux)){
-                aux.getFilhoDireito().setPai(v);
-                if ((int) aux.getFilhoDireito().getElemento() > (int) k){
-                    v.setFilhoDireito(aux.getFilhoDireito());
-                }
-                else {
-                    v.setFilhoEsquerdo(aux.getFilhoDireito());
-                }
-            }
-            else {
-                v.setPai(aux);
-            }
+            v.setPai(aux);
             aux.setFilhoDireito(v);
         }
         size++;
@@ -142,47 +120,46 @@ public class ArvorePesquisa {
 
     public void remove(Object k){
         No aux = find(k, root);
-        if (isExternal(aux)){
-            if (aux.getPai().getFilhoEsquerdo() == aux){
-                aux.getPai().setFilhoEsquerdo(null);
-            }
-            else {
-                aux.getPai().setFilhoDireito(null);
-            }
+        if(k != aux.getElemento()) {
+            throw new InvalidNoException("O Node com a chave "+ k + " nao existe!");
         }
-        else if ( aux.getFilhoEsquerdo() == null){
-            if (aux.getPai().getFilhoEsquerdo() == aux){
-                aux.getPai().setFilhoEsquerdo(aux.getFilhoDireito());
-                aux.getFilhoDireito().setPai(aux.getPai());
-            }
-            else if(aux.getPai().getFilhoDireito() == aux){
-                aux.getPai().setFilhoDireito(aux.getFilhoDireito());
-                aux.getFilhoDireito().setPai(aux.getPai());
-            }
-        }
-        else if( aux.getFilhoDireito() == null){
-            if (aux.getPai().getFilhoEsquerdo() == aux){
-                aux.getPai().setFilhoEsquerdo(aux.getFilhoEsquerdo());
-                aux.getFilhoEsquerdo().setPai(aux.getPai());
-            }
-            else if(aux.getPai().getFilhoDireito() == aux){
-                aux.getPai().setFilhoDireito(aux.getFilhoEsquerdo());
-                aux.getFilhoEsquerdo().setPai(aux.getPai());
-            }
+        else {
+            if (isExternal(aux)) {
+                if (aux.getPai().getFilhoEsquerdo() == aux) {
+                    aux.getPai().setFilhoEsquerdo(null);
+                } else {
+                    aux.getPai().setFilhoDireito(null);
+                }
+            } else if (aux.getFilhoEsquerdo() == null) {
+                if (aux.getPai().getFilhoEsquerdo() == aux) {
+                    aux.getPai().setFilhoEsquerdo(aux.getFilhoDireito());
+                    aux.getFilhoDireito().setPai(aux.getPai());
+                } else if (aux.getPai().getFilhoDireito() == aux) {
+                    aux.getPai().setFilhoDireito(aux.getFilhoDireito());
+                    aux.getFilhoDireito().setPai(aux.getPai());
+                }
+            } else if (aux.getFilhoDireito() == null) {
+                if (aux.getPai().getFilhoEsquerdo() == aux) {
+                    aux.getPai().setFilhoEsquerdo(aux.getFilhoEsquerdo());
+                    aux.getFilhoEsquerdo().setPai(aux.getPai());
+                } else if (aux.getPai().getFilhoDireito() == aux) {
+                    aux.getPai().setFilhoDireito(aux.getFilhoEsquerdo());
+                    aux.getFilhoEsquerdo().setPai(aux.getPai());
+                }
 
-        }
-        else { // v possui os 2 filhos.
-            No min;
-            min = aux;
-            min = min.getFilhoDireito();
-            while (min.getFilhoEsquerdo() != null){ //encontrar o menor a direita
-                min = min.getFilhoEsquerdo();
+            } else { // v possui os 2 filhos.
+                No min;
+                min = aux;
+                min = min.getFilhoDireito();
+                while (min.getFilhoEsquerdo() != null) { //encontrar o menor a direita
+                    min = min.getFilhoEsquerdo();
+                }
+                size++;
+                remove(min.getElemento());
+                aux.setElemento(min.getElemento());
             }
-            size++;
-            remove(min.getElemento());
-            aux.setElemento(min.getElemento());
+            size--;
         }
-        size--;
     }
 
     public void preOrder(No v) {
@@ -265,23 +242,22 @@ public class ArvorePesquisa {
     }
 
     public void printArvore() {
-        ArrayList<Object> lista = new ArrayList<>();
+        ArrayList<No> lista = new ArrayList<>();
         organizador(root, lista);
         System.out.println("A R V O R E:");
         for(int j=0; j <= height(root); j++) {
             for(int i = 0; i<size();i++) {
-                if(depth((No) lista.get(i)) == j) {
-                    System.out.print("(" + ((No) lista.get(i)).getElemento() + ")");
+                if(depth(lista.get(i)) == j) {
+                    System.out.print("(" + (lista.get(i)).getElemento() + ")");
                 } else {
                     System.out.print(" * ");
                 }
             }
             System.out.println();
         }
-        lista.clear();
     }
 
-    private void organizador(No no,  ArrayList<Object> lista) {
+    private void organizador(No no,  ArrayList<No> lista) {
         if(no.getFilhoEsquerdo() != null) {
             organizador(no.getFilhoEsquerdo(),lista);
         }

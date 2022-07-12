@@ -6,12 +6,13 @@ public class TestPesquisa {
         ArvorePesquisa arvore = new ArvorePesquisa(5);
         No newnode = new No();
         arvore.insert(2);
-        arvore.insert(3);
-        arvore.insert(10);
+        arvore.insert(4);
         arvore.insert(7);
+        arvore.insert(6);
         arvore.insert(9);
         arvore.insert(8);
         arvore.insert(1);
+        arvore.insert(3);
 
 
         System.out.println("Size: "+arvore.size());
@@ -27,14 +28,15 @@ public class TestPesquisa {
         //System.out.println("esquerdo: "+arvore.root().getFilhoEsquerdo().getElemento());
         //System.out.println("direito: "+arvore.root().getFilhoDireito().getElemento());
 
-        /*System.out.println("Profundidade da chave 9: "+arvore.depth(arvore.root().getFilhoDireito().getFilhoEsquerdo().getFilhoDireito().getFilhoDireito()));
+        //System.out.println("Profundidade da chave 9: "+arvore.depth(arvore.root().getFilhoDireito().getFilhoEsquerdo().getFilhoDireito().getFilhoDireito()));
+        arvore.printArvore();
         System.out.println("Altura da arvore: "+arvore.height(arvore.root()));
-        arvore.remove(9);
-        System.out.println("Altura da arvore: "+arvore.height(arvore.root()));
-        arvore.remove(10);
+        arvore.remove(3);
+        arvore.remove(8);
+        //arvore.remove(10);
         arvore.remove(5);
-        System.out.println("Size: "+arvore.size());*/
-        arvore.printArvore2();
-
+        arvore.printArvore();
+        System.out.println("Altura da arvore: "+arvore.height(arvore.root()));
+        System.out.println("Size: "+arvore.size());
     }
 }
