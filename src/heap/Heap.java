@@ -2,9 +2,9 @@ package heap;
 
 public class Heap {
 
-    private Object[] heap;
-    private int capacidade;
-    private int n;
+    protected Object[] heap;
+    protected int capacidade;
+    protected int n;
 
     public Heap(int capacidade) {
         this.heap = new Object[capacidade];
@@ -28,11 +28,20 @@ public class Heap {
         return (2 * index)+ 1;
     }
 
-    public int parent(int index){
-        return (index-1)/2;
+    public int height(){
+        int i = 2,aux = 0;
+        while (i <= n){
+            i = i*2;
+            aux++;
+        }
+        return aux;
     }
 
-    public int length(){
+    public int parent(int index){
+        return (index)/2;
+    }
+
+    public int size(){
         return n;
     }
 
@@ -61,9 +70,9 @@ public class Heap {
         return aux;
     }
 
-// min - heap
+// max - heap
     private void upHeap(int index){
-        if(index == 1 || index == 2 || (int) heap[parent(index)] <= (int) heap[index] ){
+        if(index == 1 || (int) heap[parent(index)] >= (int) heap[index] ){
             return;
         }
         Object aux = heap[index];
@@ -76,10 +85,10 @@ public class Heap {
         if(isFolha(index)){
             return;
         }
-        if ((int)heap[index] > (int) heap[left(index)] || (int)heap[index] > (int) heap[right(index)])
+        if ((int)heap[index] < (int) heap[left(index)] || (int)heap[index] < (int) heap[right(index)])
         {
             Object aux = heap[index];
-            if ((int)heap[left(index)] < (int)heap[right(index)]){
+            if ((int)heap[left(index)] > (int)heap[right(index)]){
                 heap[index] = heap[left(index)];
                 heap[left(index)] = aux;
                 downHeap(left(index));
