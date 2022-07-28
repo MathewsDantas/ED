@@ -107,4 +107,14 @@ public class Heap {
         }
         System.out.println();
     }
+
+    public void print2(){
+        for(int i=0;i<=height();i++){
+            for(int j=0;j<Math.pow(2,i) && j+Math.pow(2,i)<=n;j++){ //qtd. de elementos por altura && indice de cada elemento.
+                System.out.print(heap[j+(int)Math.pow(2,i)]+" ");
+
+            }
+            System.out.println();
+        }
+    }
 }
