@@ -7,23 +7,10 @@ public class FilaPrioridade extends Heap{
     }
 
     public Object min(){
-        if(isEmpty()){
-            throw new RuntimeException("Empty");
-        }
-        Object aux = super.heap[1];
-        for (int i=2; i<=super.n; i++){
-            if ((int) super.heap[i] < (int) aux){
-                aux = super.heap[i];
-            }
-        }
-        return aux;
+        return heap[1];
     }
 
-//    public Object removeMin(){
-//        if(isEmpty()){
-//            throw new RuntimeException("Empty");
-//        }
-//        Object aux = min();
-//        return aux;
-//    }
+    public Object removeMin(){
+        return super.remove();
+    }
 }

@@ -11,12 +11,14 @@ public class TestFilaPrioridade {
         fila.insert(12);
         fila.insert(5);
         fila.insert(6);
+
         fila.print2();
         System.out.println("Altura: "+fila.height());
         System.out.println("Min: "+fila.min());
-        System.out.println("Retirado: "+fila.remove());
-        System.out.println("Retirado: "+fila.remove());
+        System.out.println("Retirado: "+fila.removeMin());
+        System.out.println("Retirado: "+fila.removeMin());
         fila.print2();
         System.out.println("Altura: "+fila.height());
+        System.out.println("Min: "+fila.min());
     }
 }
