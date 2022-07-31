@@ -20,7 +20,10 @@ public class TestHash {
         hash.print();
         hash.insert(8);
         hash.print();
-        //System.out.println("Removido: "+hash.remove(5));
+
+        System.out.println("Removido: "+hash.remove(5));
+        hash.print();
+
         System.out.println("Size: "+ hash.size());
 
     }

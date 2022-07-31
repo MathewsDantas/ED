@@ -30,7 +30,7 @@ public class Hash {
 
     public void insert(Object c){
         int indice = funcaoHash(c);
-        if (n == cap_array-1) // vai duplicar antes de encher
+        if (indice == cap_array-1) // vai duplicar antes de encher
         {
             int new_cap = cap_array*2;
             Object[] hash_aux = new Object[new_cap];
@@ -45,15 +45,32 @@ public class Hash {
             }
             hash = hash_aux;
             cap_array = new_cap;
-            indice = funcaoHash(c);
-            hash[indice] = c;
+            insert(c);
         }else {
             while (hash[indice] != null) {
                 indice++;
+                if (indice == cap_array - 1) // vai duplicar antes de encher
+                {
+                    int new_cap = cap_array * 2;
+                    Object[] hash_aux = new Object[new_cap];
+                    for (int i = 0; i < cap_array; i++) {
+                        if (hash[i] != null) {
+                            int ind_aux = (int) hash[i] % new_cap;
+                            while (hash_aux[ind_aux] != null) {
+                                ind_aux++;
+                            }
+                            hash_aux[ind_aux] = hash[i];
+                        }
+                    }
+                    hash = hash_aux;
+                    cap_array = new_cap;
+                    insert(c);
+                }
             }
             hash[indice] = c;
+            n++;
         }
-        n++;
+
     }
 
     public Object remove(Object c){
