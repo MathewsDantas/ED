@@ -20,6 +20,8 @@ public class TestHash {
         hash.print();
         hash.insert(8);
         hash.print();
+        hash.insert(18);
+        hash.print();
 
         System.out.println("Removido: "+hash.remove(5));
         hash.print();

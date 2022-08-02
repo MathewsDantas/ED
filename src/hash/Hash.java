@@ -30,47 +30,32 @@ public class Hash {
 
     public void insert(Object c){
         int indice = funcaoHash(c);
-        if (indice == cap_array-1) // vai duplicar antes de encher
-        {
-            int new_cap = cap_array*2;
-            Object[] hash_aux = new Object[new_cap];
-            for (int i=0; i<cap_array; i++){
-                if (hash[i] != null) {
-                    int ind_aux = (int) hash[i] % new_cap;
-                    while (hash_aux[ind_aux] != null) {
-                        ind_aux++;
-                    }
-                    hash_aux[ind_aux] = hash[i];
-                }
-            }
-            hash = hash_aux;
-            cap_array = new_cap;
-            insert(c);
-        }else {
-            while (hash[indice] != null) {
-                indice++;
-                if (indice == cap_array - 1) // vai duplicar antes de encher
-                {
-                    int new_cap = cap_array * 2;
-                    Object[] hash_aux = new Object[new_cap];
-                    for (int i = 0; i < cap_array; i++) {
-                        if (hash[i] != null) {
-                            int ind_aux = (int) hash[i] % new_cap;
-                            while (hash_aux[ind_aux] != null) {
-                                ind_aux++;
-                            }
-                            hash_aux[ind_aux] = hash[i];
+        boolean x = false;
+        while (hash[indice] != null) {
+            indice++;
+            if (indice == cap_array - 1) // vai duplicar antes de encher
+            {
+                int new_cap = cap_array * 2;
+                Object[] hash_aux = new Object[new_cap];
+                for (int i = 0; i < cap_array; i++) {
+                    if (hash[i] != null) {
+                        int ind_aux = (int) hash[i] % new_cap;
+                        while (hash_aux[ind_aux] != null) {
+                            ind_aux++;
                         }
+                        hash_aux[ind_aux] = hash[i];
                     }
-                    hash = hash_aux;
-                    cap_array = new_cap;
-                    insert(c);
                 }
+                hash = hash_aux;
+                cap_array = new_cap;
+                insert(c);
+                x = true;
             }
+        }
+        if (!x) {
             hash[indice] = c;
             n++;
         }
-
     }
 
     public Object remove(Object c){
