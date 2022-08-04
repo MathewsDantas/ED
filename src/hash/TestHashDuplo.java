@@ -1,8 +1,10 @@
 package hash;
 
-public class TestHash {
+public class TestHashDuplo {
     public static void main(String[] args) {
-        HashLinearProbing hash = new HashLinearProbing(1);
+
+        HashDuplo hash = new HashDuplo(7);
+
 
         System.out.println(hash.isEmpty());
 
@@ -10,17 +12,15 @@ public class TestHash {
         hash.print();
         hash.insert(14);
         hash.print();
-        hash.insert(18);
+        hash.insert(12);
         hash.print();
-        hash.insert(5);
+        hash.insert(3);
         hash.print();
 
-
-        System.out.println("Removido: "+hash.remove(5));
+        hash.remove(10);
         hash.print();
+
 
         System.out.println("Size: "+ hash.size());
-
     }
-
 }

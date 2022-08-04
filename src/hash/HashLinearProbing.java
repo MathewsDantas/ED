@@ -1,16 +1,16 @@
 package hash;
 
-public class Hash {
+public class HashLinearProbing {
 
     private Object[] hash;
     private int cap_array;
     private int n; /* quantidade de elementos no array */
 
-    public Hash(){
+    public HashLinearProbing(){
 
     }
 
-    public Hash(int tam){
+    public HashLinearProbing(int tam){
         this.cap_array = tam;
         this.n = 0;
         this.hash = new Object[cap_array];
@@ -31,9 +31,11 @@ public class Hash {
     public void insert(Object c){
         int indice = funcaoHash(c);
         boolean x = false;
+        boolean add = false;
         while (hash[indice] != null) {
             indice++;
-            if (indice == cap_array - 1) // vai duplicar antes de encher
+            indice = indice%(cap_array);
+            if (n == cap_array)
             {
                 int new_cap = cap_array * 2;
                 Object[] hash_aux = new Object[new_cap];
@@ -42,13 +44,17 @@ public class Hash {
                         int ind_aux = (int) hash[i] % new_cap;
                         while (hash_aux[ind_aux] != null) {
                             ind_aux++;
+                            ind_aux = ind_aux%new_cap;
                         }
                         hash_aux[ind_aux] = hash[i];
                     }
                 }
                 hash = hash_aux;
                 cap_array = new_cap;
-                insert(c);
+                if (!add) {
+                    insert(c);
+                    add = true;
+                }
                 x = true;
             }
         }
@@ -69,6 +75,7 @@ public class Hash {
                 return aux;
             }
             indice++;
+            indice = indice%cap_array;
         }
         return null;
     }
@@ -80,6 +87,7 @@ public class Hash {
                 return hash[indice];
             }
             indice++;
+            indice = indice%cap_array;
         }
         return null;
     }
