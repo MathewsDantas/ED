@@ -59,7 +59,7 @@ public class HashDuplo {
         int indice = funcaoHash(c, cap_array, mult);
         boolean x = false;
         boolean add = false; // já adicionou o numero na primeira vez que dobrou.
-        while (hash[indice] != null) {
+        while (hash[indice] != null && hash[indice] != "AV") {
             mult++;
             indice = funcaoHash(c, cap_array, mult);
             if (n == cap_array-1)
@@ -99,7 +99,7 @@ public class HashDuplo {
         while (hash[indice] != null){
             if (hash[indice] == c){
                 aux = hash[indice];
-                hash[indice] = null;
+                hash[indice] = "AV";
                 n--;
                 return aux;
             }
@@ -124,7 +124,7 @@ public class HashDuplo {
 
     public void print(){
         for (int i=0; i<cap_array; i++){
-            if (hash[i] != null){
+            if (hash[i] != null && hash[i] != "AV"){
                 System.out.print("i"+i+":"+hash[i]+" ");
             }
         }

@@ -18,7 +18,8 @@ public class TestHash {
 
         System.out.println("Removido: "+hash.remove(5));
         hash.print();
-
+        hash.insert(5);
+        hash.print();
         System.out.println("Size: "+ hash.size());
 
     }

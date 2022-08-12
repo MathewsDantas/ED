@@ -32,7 +32,7 @@ public class HashLinearProbing {
         int indice = funcaoHash(c);
         boolean x = false;
         boolean add = false;
-        while (hash[indice] != null) {
+        while (hash[indice] != null && hash[indice] != "AV") {
             indice++;
             indice = indice%(cap_array);
             if (n == cap_array)
@@ -70,7 +70,7 @@ public class HashLinearProbing {
         while (hash[indice] != null){
             if (hash[indice] == c){
                 aux = hash[indice];
-                hash[indice] = null;
+                hash[indice] = "AV";
                 n--;
                 return aux;
             }
@@ -94,7 +94,7 @@ public class HashLinearProbing {
 
     public void print(){
         for (int i=0; i<cap_array; i++){
-            if (hash[i] != null){
+            if (hash[i] != null && hash[i] != "AV"){
                 System.out.print("i"+i+":"+hash[i]+" ");
             }
         }
