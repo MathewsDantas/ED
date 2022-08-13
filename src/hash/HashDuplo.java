@@ -62,7 +62,7 @@ public class HashDuplo {
         while (hash[indice] != null && hash[indice] != "AV") {
             mult++;
             indice = funcaoHash(c, cap_array, mult);
-            if (n == cap_array-1)
+            if (n >= (cap_array/2))
             {
                 int new_cap = VerificaCapacidadePrimo(cap_array);
                 Object[] hash_aux = new Object[new_cap];

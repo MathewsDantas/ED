@@ -20,6 +20,22 @@ public class HeapNode {
         this.tamanho = 1;
     }
 
+    public Node getRaiz() {
+        return raiz;
+    }
+
+    public void setRaiz(Node raiz) {
+        this.raiz = raiz;
+    }
+
+    public Node getUltimo() {
+        return ultimo;
+    }
+
+    public void setUltimo(Node ultimo) {
+        this.ultimo = ultimo;
+    }
+
     public boolean isEmpty(){
         return ultimo == null;
     }
@@ -36,7 +52,6 @@ public class HeapNode {
     {
         return (no.getFilhoEsquerdo() == null || no.getFilhoDireito() == null);
     }
-
 
     public boolean isExternal(Node no){
         return (no.getFilhoEsquerdo() == null && no.getFilhoDireito() == null);
@@ -124,7 +139,6 @@ public class HeapNode {
                 ultimo = novo_ultimo;
             }
         }
-
     }
 
     public Object remove(){
@@ -135,6 +149,9 @@ public class HeapNode {
             ultimo = null;
         }
         else {
+            if (depth(ultimo) < height(raiz) || tamanho == 3){
+                NoRemove(ultimo);
+            }
             raiz.setElemento(ultimo.getElemento());
             if (ultimo.getPai().getFilhoDireito() == ultimo){ // é filho direito?
                 ultimo.getPai().setFilhoDireito(null);
@@ -145,9 +162,38 @@ public class HeapNode {
                 ultimo = ultimo.getPai();
             }
             tamanho--;
-            downHeap(raiz);
+            if (tamanho > 2)downHeap(raiz);
+
         }
         return removido;
+    }
+
+    public void NoRemove(Node no){
+        if (no != raiz && no.getPai().getFilhoDireito() != no){
+            NoRemove(no.getPai());
+        }
+        if(isRoot(no)){
+            while (no.getFilhoDireito() != null){ // vindo da esquerda total para direita
+                no = no.getFilhoDireito();
+            }
+            ultimo = no;
+            if (hasLeft(no)){
+                ultimo = no.getFilhoEsquerdo();
+            }
+        }
+        else if(no.getPai().getFilhoDireito() == no){
+            Node aux = no.getPai().getFilhoEsquerdo();//passa pro lado esquerdo
+            while (!isExternal(aux)){
+                aux = aux.getFilhoDireito();
+            }
+            ultimo = aux;
+            if (depth(ultimo) < height(raiz)){
+                NoRemove(ultimo);
+            }
+            if (hasLeft(aux)){
+                ultimo = no.getFilhoEsquerdo();
+            }
+        }
     }
 
     private void upHeap(Node no){

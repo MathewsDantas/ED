@@ -35,7 +35,7 @@ public class HashLinearProbing {
         while (hash[indice] != null && hash[indice] != "AV") {
             indice++;
             indice = indice%(cap_array);
-            if (n == cap_array)
+            if (n >= (cap_array/2))
             {
                 int new_cap = cap_array * 2;
                 Object[] hash_aux = new Object[new_cap];
