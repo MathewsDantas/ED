@@ -1,5 +1,6 @@
 package skipList;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class SkipList {
@@ -9,7 +10,7 @@ public class SkipList {
     private final Object menosInf = Integer.MIN_VALUE;
     private final Object maisInf = Integer.MAX_VALUE;
     private int altura;
-
+    public ArrayList<Object> arrayprint = new ArrayList<Object>();// apenas para facilitar na impressão da SkipList
 
     public SkipList() {
         this.inicio = new QuadNode(menosInf);
@@ -58,12 +59,12 @@ public class SkipList {
         return nivel;
     }
 
-    public void insert(Object key){
+    public void insert(Object key) {
         QuadNode noEncontrado = busca(key);
         QuadNode NoAbaixo = null;
         int novoNivel = rand();
-
-        for (int i=0; i<=novoNivel; i++){
+        arrayprint.add(key);
+        for (int i = 0; i <= novoNivel; i++) {
 
             QuadNode novoNo = new QuadNode(key);
             QuadNode proximo = noEncontrado.getPosterior();// Nó auxiliar
@@ -71,21 +72,48 @@ public class SkipList {
             proximo.setAnterior(novoNo);
             novoNo.setPosterior(proximo);
             novoNo.setAnterior(noEncontrado);
-            if (NoAbaixo != null){
+            if (NoAbaixo != null) {
                 novoNo.setAbaixo(NoAbaixo);
                 NoAbaixo.setAcima(novoNo);
             }
 
-            while (noEncontrado.getAcima() == null){//Subir de nível
+            while (noEncontrado.getAcima() == null) {//Subir de nível
                 noEncontrado = noEncontrado.getAnterior();
             }
             noEncontrado = noEncontrado.getAcima();
 
-            while ((int)key >= (int)noEncontrado.getPosterior().getItem()){//procurar novamente a posição no novo nível.
+            while ((int) key >= (int) noEncontrado.getPosterior().getItem()) {//procurar novamente a posição no novo nível.
                 noEncontrado = noEncontrado.getPosterior();
             }
             NoAbaixo = novoNo;
         }
-
     }
+
+    public void print(){
+        System.out.println("altura :"+altura);
+        QuadNode auxV = inicio;
+        QuadNode auxH = auxV;
+        int nivel = altura;
+
+        while(auxV != null){
+            System.out.print("Lv"+ nivel+" --> ");
+            while (auxH != null) {
+                if (auxH.getItem() == menosInf){
+                    System.out.print("(-) ");
+                }
+                else if(auxH.getItem() == maisInf ){
+                    System.out.print("(+) ");
+                }
+                else {
+                    System.out.print("| " + auxH.getItem() + " |");
+                }
+                auxH = auxH.getPosterior();
+            }
+            nivel--;
+            auxV = auxV.getAbaixo();
+            auxH = auxV;
+            System.out.println();
+        }
+    }
+
 }
