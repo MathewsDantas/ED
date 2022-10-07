@@ -117,7 +117,6 @@ public class Avl {
     }
 
     public void checkFb(No no){
-
     }
 
     public void rightRotation(No no){
