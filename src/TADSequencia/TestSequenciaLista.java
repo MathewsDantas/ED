@@ -1,6 +1,6 @@
 package TADSequencia;
 
-import ListaDuplamente.Node;
+import listaDuplamente.Node;
 
 public class TestSequenciaLista {
     public static void main(String[] args) throws SequenciaVaziaException {

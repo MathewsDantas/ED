@@ -1,6 +1,6 @@
 package TADLista;
 
-import ListaDuplamente.Node;
+import listaDuplamente.Node;
 
 public class ListaListaEncadeada implements ILista{
 

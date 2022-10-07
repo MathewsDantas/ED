@@ -1,6 +1,6 @@
 package TADSequencia;
 
-import ListaDuplamente.Node;
+import listaDuplamente.Node;
 
 public class SequenciaLista implements ISequencia{
 

@@ -1,16 +1,16 @@
-package arvorePesquisa;
+package avl;
 
 import java.util.ArrayList;
 
-public class ArvorePesquisa {
+public class Avl {
 
     private No root;
     private int size;
 
-    public ArvorePesquisa() {
+    public Avl() {
     }
 
-    public ArvorePesquisa(Object key) {
+    public Avl(Object key) {
         root = new No(key);
         size = 1;
     }
@@ -116,6 +116,62 @@ public class ArvorePesquisa {
         size++;
     }
 
+    public void checkFb(No no){
+
+    }
+
+    public void rightRotation(No no){
+        No novoPai = no.getFilhoEsquerdo();
+        if (hasRight(novoPai)) {
+            no.setFilhoEsquerdo(novoPai.getFilhoDireito());
+            no.getFilhoEsquerdo().setPai(no);
+            novoPai.setFilhoDireito(no);
+        }
+        else {
+            novoPai.setFilhoDireito(no);
+            no.setFilhoEsquerdo(null);
+        }
+        if (no != root){
+            if (no == no.getPai().getFilhoDireito()){
+                no.getPai().setFilhoDireito(novoPai);
+            }
+            else {
+                no.getPai().setFilhoEsquerdo(novoPai);
+            }
+            novoPai.setPai(no.getPai());
+        }
+        else { // o novoPai será a nova raíz
+            root = novoPai;
+        }
+        no.setPai(novoPai);
+    }
+
+    public void leftRotation(No no){
+        No novoPai = no.getFilhoDireito();
+        if (hasLeft(novoPai)) {
+            no.setFilhoDireito(novoPai.getFilhoEsquerdo());
+            no.getFilhoDireito().setPai(no);
+            novoPai.setFilhoEsquerdo(no);
+        }
+        else {
+            novoPai.setFilhoEsquerdo(no);
+            no.setFilhoDireito(null);
+        }
+        if (no != root){
+            if (no == no.getPai().getFilhoDireito()){
+                no.getPai().setFilhoDireito(novoPai);
+            }
+            else {
+                no.getPai().setFilhoEsquerdo(novoPai);
+            }
+            novoPai.setPai(no.getPai());
+        }
+        else { // o novoPai será a nova raíz
+            root = novoPai;
+        }
+        no.setPai(novoPai);
+    }
+
     public void remove(Object k){
         No aux = find(k, root);
         if(k != aux.getElemento()) {
@@ -209,7 +265,7 @@ public class ArvorePesquisa {
         }
     }
 
-    private void organizador(No no,  ArrayList<No> lista) {
+    private void organizador(No no, ArrayList<No> lista) {
         if(no.getFilhoEsquerdo() != null) {
             organizador(no.getFilhoEsquerdo(),lista);
         }
@@ -219,4 +275,3 @@ public class ArvorePesquisa {
         }
     }
 }
-

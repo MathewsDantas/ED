@@ -1,6 +1,6 @@
 package TADVetor;
 
-import ListaDuplamente.Node;
+import listaDuplamente.Node;
 
 public class VetorLista implements IVetor{
 
