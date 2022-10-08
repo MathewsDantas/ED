@@ -257,7 +257,7 @@ public class Avl {
                 aux.setElemento(min.getElemento());
             }
             size--;
-            checkFb(aux, -1);
+            checkFb(aux, -1);// ajeitar isso aqui
         }
     }
 
