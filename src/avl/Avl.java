@@ -114,9 +114,7 @@ public class Avl {
             aux.setFilhoDireito(v);
         }
         size++;
-    }
-
-    public void checkFb(No no){
+        checkFb(v, 1);
     }
 
     public void rightRotation(No no){
@@ -143,6 +141,10 @@ public class Avl {
             root = novoPai;
         }
         no.setPai(novoPai);
+        int novoFbB = no.getFb() - 1 - Math.min(novoPai.getFb(),0);
+        int novoFbA = novoPai.getFb() - 1 + Math.max(novoFbB,0);
+        no.setFb(novoFbB);
+        novoPai.setFb(novoFbA);
     }
 
     public void leftRotation(No no){
@@ -169,6 +171,47 @@ public class Avl {
             root = novoPai;
         }
         no.setPai(novoPai);
+        int novoFbB = no.getFb() + 1 - Math.min(novoPai.getFb(),0);
+        int novoFbA = novoPai.getFb() + 1 + Math.max(novoFbB,0);
+        no.setFb(novoFbB);
+        novoPai.setFb(novoFbA);
+    }
+
+    public void checkRotation(No no){
+        if (no.getPai().getFb() == 2){ // rotação a direita
+            if (no.getFb() >= 0){ // se a subarvore a esquerda tiver o msm sinal faz rotaçãoSimples.
+                rightRotation(no.getPai());//nó desbalanceado
+            }
+            else {// rotaçãoDupla
+                leftRotation(no);
+                rightRotation(no.getPai());//nó desbalanceado
+            }
+        }
+        else if(no.getPai().getFb() == -2){ // rotação a esquerda
+            if (no.getPai().getFilhoDireito().getFb() <=0){ // se a subarvore a direita tiver o msm sinal faz rotaçãoSimples.
+                leftRotation(no.getPai());//nó desbalanceado
+            }
+            else { // rotaçãoDupla
+                rightRotation(no);
+                leftRotation(no.getPai());//nó desbalanceado
+            }
+        }
+    }
+
+    public void checkFb(No no, int ehInsert){
+        if (no.getPai().getFilhoEsquerdo() == no){ // eh filho esquerdo
+            no.getPai().setFb(no.getPai().getFb() + (ehInsert)); // se for insert será +1, caso seja remove será -1.
+        }
+        else {
+            no.getPai().setFb(no.getPai().getFb() - (ehInsert));
+        }
+        if (no.getPai().getFb() == 0) { //condição de parada
+            return;
+        }
+        else {
+            checkRotation(no);
+            checkFb(no.getPai(), ehInsert);
+        }
     }
 
     public void remove(Object k){
@@ -183,7 +226,8 @@ public class Avl {
                 } else {
                     aux.getPai().setFilhoDireito(null);
                 }
-            } else if (aux.getFilhoEsquerdo() == null) { //verifica se o aux tem filho direito
+            }
+            else if (aux.getFilhoEsquerdo() == null) { //verifica se o aux tem filho direito
                 if (aux.getPai().getFilhoEsquerdo() == aux) { // verifica se é filho esquerdo
                     aux.getPai().setFilhoEsquerdo(aux.getFilhoDireito());
                     aux.getFilhoDireito().setPai(aux.getPai());
@@ -191,7 +235,8 @@ public class Avl {
                     aux.getPai().setFilhoDireito(aux.getFilhoDireito());
                     aux.getFilhoDireito().setPai(aux.getPai());
                 }
-            } else if (aux.getFilhoDireito() == null) {
+            }
+            else if (aux.getFilhoDireito() == null) {
                 if (aux.getPai().getFilhoEsquerdo() == aux) {
                     aux.getPai().setFilhoEsquerdo(aux.getFilhoEsquerdo());
                     aux.getFilhoEsquerdo().setPai(aux.getPai());
@@ -199,8 +244,8 @@ public class Avl {
                     aux.getPai().setFilhoDireito(aux.getFilhoEsquerdo());
                     aux.getFilhoEsquerdo().setPai(aux.getPai());
                 }
-
-            } else { // v possui os 2 filhos.
+            }
+            else { // v possui os 2 filhos.
                 No min;
                 min = aux;
                 min = min.getFilhoDireito();
@@ -212,6 +257,7 @@ public class Avl {
                 aux.setElemento(min.getElemento());
             }
             size--;
+            checkFb(aux, -1);
         }
     }
 
