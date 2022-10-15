@@ -1,123 +1,23 @@
 package avl;
 
+import arvorePesquisa.ArvorePesquisa;
+import arvorePesquisa.InvalidNoException;
+import arvorePesquisa.No;
+
 import java.util.ArrayList;
 
-public class Avl {
-
-    private No root;
-    private int size;
+public class Avl extends ArvorePesquisa {
 
     public Avl() {
+        super();
     }
 
     public Avl(Object key) {
-        root = new No(key);
-        size = 1;
+        super(key);
     }
 
-    public No root()
-    {
-        return root;
-    }
 
-    public boolean isInternal(No v)
-    {
-        return (v.getFilhoEsquerdo() != null || v.getFilhoDireito() != null);
-    }
-
-    public boolean isExternal(No v)
-    {
-        return (v.getFilhoEsquerdo() == null && v.getFilhoDireito() == null);
-    }
-
-    public boolean isRoot(No v)
-    {
-        return v == root;
-    }
-
-    public int size(){
-        return size;
-    }
-
-    public boolean isEmpty()
-    {
-        return false;
-    }
-
-    public No parent(No v)
-    {
-        return v.getPai();
-    }
-
-    public int depth(No v){
-        if (isRoot(v))
-            return 0;
-        else
-            return 1 + depth(v.getPai());
-    }
-
-    public int height(No v){
-        if(isExternal(v)){
-            return 0;
-        }
-        else {
-            int h1 = 0;
-            if (hasLeft(v)){
-                h1 = 1 + height(v.getFilhoEsquerdo());
-            }
-            int h2 = 0;
-            if (hasRight(v)) {
-                h2 = 1 + height(v.getFilhoDireito());
-            }
-            return h1 > h2 ? h1 : h2;
-        }
-    }
-
-    public Object replace(No v, Object o) {
-        Object aux = v.getElemento();
-        v.setElemento(o);
-        return aux;
-    }
-
-    public No find(Object k, No v){
-        if (isExternal(v)){
-            return v;
-        }
-        if ( (int) k < (int) v.getElemento()){
-            if (hasLeft(v)){
-                return find(k, v.getFilhoEsquerdo());
-            }
-            return v;
-        }
-        else if ( k == v.getElemento()){
-            return v;
-        }
-        else if ( (int) k > (int) v.getElemento()){
-            if (hasRight(v)){
-                return find(k , v.getFilhoDireito());
-            }
-            return v;
-        }
-        return v;
-    }
-
-    public void insert(Object k){
-        No aux = find(k, root);
-        No v = new No();
-        v.setElemento(k);
-        if ( (int) k <= (int) aux.getElemento()){
-            v.setPai(aux);
-            aux.setFilhoEsquerdo(v);
-        }
-        else {
-            v.setPai(aux);
-            aux.setFilhoDireito(v);
-        }
-        size++;
-        checkFb(v, 1);
-    }
-
-    public void rightRotation(No no){
+    public static void rightRotation(No no){
         No novoPai = no.getFilhoEsquerdo();
         if (hasRight(novoPai)) {
             no.setFilhoEsquerdo(novoPai.getFilhoDireito());
@@ -141,13 +41,16 @@ public class Avl {
             root = novoPai;
         }
         no.setPai(novoPai);
-        int novoFbB = no.getFb() - 1 - Math.min(novoPai.getFb(),0);
-        int novoFbA = novoPai.getFb() - 1 + Math.max(novoFbB,0);
+        /*  FB_B_novo= FB_B - 1 - max(FB_A, 0);
+        *    FB_A_novo= FB_A - 1 + min(FB_B_novo, 0);
+        */
+        int novoFbB = no.getFb() - 1 - Math.max(novoPai.getFb(),0);
+        int novoFbA = novoPai.getFb() - 1 + Math.min(novoFbB,0);
         no.setFb(novoFbB);
         novoPai.setFb(novoFbA);
     }
 
-    public void leftRotation(No no){
+    public static void leftRotation(No no){
         No novoPai = no.getFilhoDireito();
         if (hasLeft(novoPai)) {
             no.setFilhoDireito(novoPai.getFilhoEsquerdo());
@@ -171,20 +74,24 @@ public class Avl {
             root = novoPai;
         }
         no.setPai(novoPai);
-        int novoFbB = no.getFb() + 1 - Math.min(novoPai.getFb(),0);
-        int novoFbA = novoPai.getFb() + 1 + Math.max(novoFbB,0);
+        /*  FB_B_novo= FB_B + 1 - min(FB_A, 0);
+        *   FB_A_novo= FB_A + 1 +max(FB_B_novo, 0);
+        */
+        int novoFbB = (no.getFb() + 1) - Math.min(novoPai.getFb(),0);
+        int novoFbA = (novoPai.getFb() + 1) + Math.max(novoFbB,0);
         no.setFb(novoFbB);
         novoPai.setFb(novoFbA);
     }
 
     public void checkRotation(No no){
         if (no.getPai().getFb() == 2){ // rotação a direita
-            if (no.getFb() >= 0){ // se a subarvore a esquerda tiver o msm sinal faz rotaçãoSimples.
+            if (no.getPai().getFilhoEsquerdo().getFb() >= 0){ // se a subarvore a esquerda tiver o msm sinal faz rotaçãoSimples.
                 rightRotation(no.getPai());//nó desbalanceado
             }
             else {// rotaçãoDupla
+                No noPai = no.getPai();
                 leftRotation(no);
-                rightRotation(no.getPai());//nó desbalanceado
+                rightRotation(noPai);//nó desbalanceado
             }
         }
         else if(no.getPai().getFb() == -2){ // rotação a esquerda
@@ -192,30 +99,60 @@ public class Avl {
                 leftRotation(no.getPai());//nó desbalanceado
             }
             else { // rotaçãoDupla
+                No noPai = no.getPai();
                 rightRotation(no);
-                leftRotation(no.getPai());//nó desbalanceado
+                leftRotation(noPai);//nó desbalanceado
             }
         }
     }
 
-    public void checkFb(No no, int ehInsert){
-        if (no.getPai().getFilhoEsquerdo() == no){ // eh filho esquerdo
+    public void checkFb(No no, int ehInsert, boolean ehEsquerdo){
+        if (ehEsquerdo){ // eh filho esquerdo
             no.getPai().setFb(no.getPai().getFb() + (ehInsert)); // se for insert será +1, caso seja remove será -1.
         }
-        else {
+        if (!ehEsquerdo){ //eh filho direito
             no.getPai().setFb(no.getPai().getFb() - (ehInsert));
         }
-        if (no.getPai().getFb() == 0) { //condição de parada
-            return;
-        }
-        else {
+        if (no.getPai().getFb() == 2 || no.getPai().getFb() == -2){
             checkRotation(no);
-            checkFb(no.getPai(), ehInsert);
+        }
+        else if ((no.getPai() != root && ehInsert == 1 && no.getPai().getFb() != 0)){//condição de parada insert
+            ehEsquerdo = false;
+            if (no.getPai().getPai().getFilhoEsquerdo() == no.getPai()){ // Verifica se o antecessor é filho esquerdo
+                ehEsquerdo = true;
+            }
+            checkFb(no.getPai(), ehInsert, ehEsquerdo);
+        }
+        else if((no.getPai() != root && ehInsert == -1 && (no.getPai().getFb() == 1))){//condição de parada remove
+            ehEsquerdo = false;
+            if (no.getPai().getPai().getFilhoEsquerdo() == no.getPai()){
+                ehEsquerdo = true;
+            }
+            checkFb(no.getPai(), ehInsert, ehEsquerdo);
         }
     }
 
+    public No insert(Object k){
+        No v = super.insert(k);
+        boolean ehEsquerdo = false;
+        if (v.getPai().getFilhoEsquerdo() == v){
+            ehEsquerdo = true;
+        }
+        checkFb(v, 1, ehEsquerdo);
+        return v;
+    }
+
+    /*public void remove(Object k){
+        super.remove(k);
+        checkFb(aux, -1);// ajeitar isso aqui
+    }*/
+
     public void remove(Object k){
+        boolean ehEsquerdo = false;
         No aux = find(k, root);
+        if (aux.getPai().getFilhoEsquerdo() == aux){
+            ehEsquerdo = true;
+        }
         if(k != aux.getElemento()) {
             throw new InvalidNoException("O Node com a chave "+ k + " nao existe!");
         }
@@ -226,8 +163,7 @@ public class Avl {
                 } else {
                     aux.getPai().setFilhoDireito(null);
                 }
-            }
-            else if (aux.getFilhoEsquerdo() == null) { //verifica se o aux tem filho direito
+            } else if (aux.getFilhoEsquerdo() == null) { //verifica se o aux tem filho direito
                 if (aux.getPai().getFilhoEsquerdo() == aux) { // verifica se é filho esquerdo
                     aux.getPai().setFilhoEsquerdo(aux.getFilhoDireito());
                     aux.getFilhoDireito().setPai(aux.getPai());
@@ -235,8 +171,7 @@ public class Avl {
                     aux.getPai().setFilhoDireito(aux.getFilhoDireito());
                     aux.getFilhoDireito().setPai(aux.getPai());
                 }
-            }
-            else if (aux.getFilhoDireito() == null) {
+            } else if (aux.getFilhoDireito() == null) {
                 if (aux.getPai().getFilhoEsquerdo() == aux) {
                     aux.getPai().setFilhoEsquerdo(aux.getFilhoEsquerdo());
                     aux.getFilhoEsquerdo().setPai(aux.getPai());
@@ -244,8 +179,8 @@ public class Avl {
                     aux.getPai().setFilhoDireito(aux.getFilhoEsquerdo());
                     aux.getFilhoEsquerdo().setPai(aux.getPai());
                 }
-            }
-            else { // v possui os 2 filhos.
+
+            } else { // v possui os 2 filhos.
                 No min;
                 min = aux;
                 min = min.getFilhoDireito();
@@ -257,41 +192,8 @@ public class Avl {
                 aux.setElemento(min.getElemento());
             }
             size--;
-            checkFb(aux, -1);// ajeitar isso aqui
         }
-    }
-
-    public void preOrder(No v) {
-        if (v != null){
-            System.out.println(v.getElemento());
-            preOrder(v.getFilhoEsquerdo());
-            preOrder(v.getFilhoDireito());
-        }
-
-    }
-
-    public void posOrder(No v){
-        if (v != null){
-            posOrder(v.getFilhoEsquerdo());
-            posOrder(v.getFilhoDireito());
-            System.out.println(v.getElemento());
-        }
-    }
-
-    public void inOrder(No v){
-        if (v != null){
-            inOrder(v.getFilhoEsquerdo());
-            System.out.println(v.getElemento());
-            inOrder(v.getFilhoDireito());
-        }
-    }
-
-    private boolean hasLeft(No v){
-        return v.getFilhoEsquerdo() != null;
-    }
-
-    private boolean hasRight(No v){
-        return v.getFilhoDireito() != null;
+        checkFb(aux,-1,ehEsquerdo);
     }
 
     public void printArvore() {
@@ -301,7 +203,7 @@ public class Avl {
         for(int j=0; j <= height(root); j++) {
             for(int i = 0; i<size();i++) {
                 if(depth(lista.get(i)) == j) {
-                    System.out.print("(" + (lista.get(i)).getElemento() + ")");
+                    System.out.print("(" + (lista.get(i)).getElemento() + ")" +"["+ (lista.get(i).getFb()) + "]");
                 } else {
                     System.out.print("   ");
                 }
@@ -310,7 +212,7 @@ public class Avl {
         }
     }
 
-    private void organizador(No no, ArrayList<No> lista) {
+    private void organizador(No no,  ArrayList<No> lista) {
         if(no.getFilhoEsquerdo() != null) {
             organizador(no.getFilhoEsquerdo(),lista);
         }

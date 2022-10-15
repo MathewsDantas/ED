@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class ArvorePesquisa {
 
-    private No root;
-    private int size;
+    protected static No root;
+    protected int size;
 
     public ArvorePesquisa() {
     }
@@ -101,7 +101,7 @@ public class ArvorePesquisa {
         return v;
     }
 
-    public void insert(Object k){
+    public No insert(Object k){
         No aux = find(k, root);
         No v = new No();
         v.setElemento(k);
@@ -114,6 +114,7 @@ public class ArvorePesquisa {
             aux.setFilhoDireito(v);
         }
         size++;
+        return v;
     }
 
     public void remove(Object k){
@@ -185,11 +186,11 @@ public class ArvorePesquisa {
         }
     }
 
-    private boolean hasLeft(No v){
+    protected static boolean hasLeft(No v){
         return v.getFilhoEsquerdo() != null;
     }
 
-    private boolean hasRight(No v){
+    protected static boolean hasRight(No v){
         return v.getFilhoDireito() != null;
     }
 

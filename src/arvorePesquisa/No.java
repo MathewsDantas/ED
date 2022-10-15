@@ -6,12 +6,14 @@ public class No {
     private No pai;
     private No filhoEsquerdo;
     private No filhoDireito;
+    private int fb;
 
     public No() {
         this.elemento = null;
         this.pai = null;
         this.filhoEsquerdo = null;
         this.filhoDireito = null;
+        this.fb =0;
     }
 
     public No(Object elemento) {
@@ -19,6 +21,15 @@ public class No {
         this.pai = null;
         this.filhoEsquerdo = null;
         this.filhoDireito = null;
+        this.fb =0;
+    }
+
+    public int getFb() {
+        return fb;
+    }
+
+    public void setFb(int fb) {
+        this.fb = fb;
     }
 
     public Object getElemento() {
