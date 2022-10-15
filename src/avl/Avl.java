@@ -114,6 +114,9 @@ public class Avl extends ArvorePesquisa {
             no.getPai().setFb(no.getPai().getFb() - (ehInsert));
         }
         if (no.getPai().getFb() == 2 || no.getPai().getFb() == -2){
+            System.out.println("rotação: "+no.getElemento());
+            System.out.println("pai:"+no.getPai().getElemento());
+            System.out.println(no.getPai().getFilhoDireito() == no);
             checkRotation(no);
         }
         else if ((no.getPai() != root && ehInsert == 1 && no.getPai().getFb() != 0)){//condição de parada insert
@@ -123,7 +126,7 @@ public class Avl extends ArvorePesquisa {
             }
             checkFb(no.getPai(), ehInsert, ehEsquerdo);
         }
-        else if((no.getPai() != root && ehInsert == -1 && (no.getPai().getFb() == 1))){//condição de parada remove
+        else if((no.getPai() != root && ehInsert == -1 && (no.getPai().getFb() == 0))){//condição de parada remove
             ehEsquerdo = false;
             if (no.getPai().getPai().getFilhoEsquerdo() == no.getPai()){
                 ehEsquerdo = true;
@@ -142,45 +145,54 @@ public class Avl extends ArvorePesquisa {
         return v;
     }
 
-    /*public void remove(Object k){
-        super.remove(k);
-        checkFb(aux, -1);// ajeitar isso aqui
-    }*/
-
     public void remove(Object k){
         boolean ehEsquerdo = false;
+        No novoNo = null;
         No aux = find(k, root);
-        if (aux.getPai().getFilhoEsquerdo() == aux){
-            ehEsquerdo = true;
-        }
         if(k != aux.getElemento()) {
             throw new InvalidNoException("O Node com a chave "+ k + " nao existe!");
         }
         else {
             if (isExternal(aux)) {
                 if (aux.getPai().getFilhoEsquerdo() == aux) {
+                    ehEsquerdo = true;
                     aux.getPai().setFilhoEsquerdo(null);
                 } else {
                     aux.getPai().setFilhoDireito(null);
                 }
-            } else if (aux.getFilhoEsquerdo() == null) { //verifica se o aux tem filho direito
+                checkFb(aux,-1,ehEsquerdo);
+            }
+            else if (aux.getFilhoEsquerdo() == null) { //verifica se o aux tem filho direito
                 if (aux.getPai().getFilhoEsquerdo() == aux) { // verifica se é filho esquerdo
                     aux.getPai().setFilhoEsquerdo(aux.getFilhoDireito());
                     aux.getFilhoDireito().setPai(aux.getPai());
+                    novoNo = aux.getFilhoEsquerdo(); // avl - o aux é descartado
                 } else if (aux.getPai().getFilhoDireito() == aux) {
                     aux.getPai().setFilhoDireito(aux.getFilhoDireito());
                     aux.getFilhoDireito().setPai(aux.getPai());
+                    novoNo = aux.getFilhoDireito(); // avl
                 }
-            } else if (aux.getFilhoDireito() == null) {
+                if (aux.getPai().getFilhoEsquerdo() == aux){
+                    ehEsquerdo = true;
+                }
+                checkFb(novoNo,-1,ehEsquerdo);
+            }
+            else if (aux.getFilhoDireito() == null) {
                 if (aux.getPai().getFilhoEsquerdo() == aux) {
                     aux.getPai().setFilhoEsquerdo(aux.getFilhoEsquerdo());
                     aux.getFilhoEsquerdo().setPai(aux.getPai());
+                    novoNo = aux.getFilhoEsquerdo(); // avl
                 } else if (aux.getPai().getFilhoDireito() == aux) {
                     aux.getPai().setFilhoDireito(aux.getFilhoEsquerdo());
                     aux.getFilhoEsquerdo().setPai(aux.getPai());
+                    novoNo = aux.getFilhoDireito(); // avl
                 }
-
-            } else { // v possui os 2 filhos.
+                if (aux.getPai().getFilhoEsquerdo() == aux){
+                    ehEsquerdo = true;
+                }
+                checkFb(novoNo,-1,ehEsquerdo);
+            }
+            else { // v possui os 2 filhos.
                 No min;
                 min = aux;
                 min = min.getFilhoDireito();
@@ -193,7 +205,6 @@ public class Avl extends ArvorePesquisa {
             }
             size--;
         }
-        checkFb(aux,-1,ehEsquerdo);
     }
 
     public void printArvore() {
@@ -203,9 +214,9 @@ public class Avl extends ArvorePesquisa {
         for(int j=0; j <= height(root); j++) {
             for(int i = 0; i<size();i++) {
                 if(depth(lista.get(i)) == j) {
-                    System.out.print("(" + (lista.get(i)).getElemento() + ")" +"["+ (lista.get(i).getFb()) + "]");
+                    System.out.print("\t(" + (lista.get(i)).getElemento() + ")" +"["+ (lista.get(i).getFb()) + "]");
                 } else {
-                    System.out.print("   ");
+                    System.out.print("\t");
                 }
             }
             System.out.println();
