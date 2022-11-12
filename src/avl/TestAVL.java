@@ -2,31 +2,24 @@ package avl;
 
 public class TestAVL {
     public static void main(String[] args) {
-        Avl avl = new Avl(9);
+        Avl avl = new Avl(1);
 
-        avl.insert(10);
-        avl.insert(13);
+        avl.insert(2);
+        avl.insert(3);
         avl.printArvore();
-        avl.insert(15);
+        avl.insert(4);
         avl.printArvore();
-        avl.insert(12);
+        avl.insert(5);
         avl.printArvore();
-        avl.insert(11);
+        avl.insert(6);
         avl.printArvore();
-        avl.insert(16);
-        avl.printArvore();
-        avl.insert(17);
-        avl.printArvore();
-        avl.remove(15);
-        avl.printArvore();
-        avl.remove(16);
+        avl.insert(7);
         avl.printArvore();
         avl.insert(8);
         avl.printArvore();
-        avl.remove(13);
+        avl.insert(9);
         avl.printArvore();
-        avl.remove(10);
-
+        avl.remove(4);
         avl.printArvore();
     }
 }

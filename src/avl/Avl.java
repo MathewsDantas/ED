@@ -114,9 +114,6 @@ public class Avl extends ArvorePesquisa {
             no.getPai().setFb(no.getPai().getFb() - (ehInsert));
         }
         if (no.getPai().getFb() == 2 || no.getPai().getFb() == -2){
-            System.out.println("rotação: "+no.getElemento());
-            System.out.println("pai:"+no.getPai().getElemento());
-            System.out.println(no.getPai().getFilhoDireito() == no);
             checkRotation(no);
         }
         else if ((no.getPai() != root && ehInsert == 1 && no.getPai().getFb() != 0)){//condição de parada insert
@@ -210,15 +207,17 @@ public class Avl extends ArvorePesquisa {
     public void printArvore() {
         ArrayList<No> lista = new ArrayList<>();
         organizador(root, lista);
+        System.out.println("----------------------------------------------------------------------------------------");
         System.out.println("A R V O R E:");
         for(int j=0; j <= height(root); j++) {
             for(int i = 0; i<size();i++) {
                 if(depth(lista.get(i)) == j) {
-                    System.out.print("\t(" + (lista.get(i)).getElemento() + ")" +"["+ (lista.get(i).getFb()) + "]");
+                    System.out.print("(" + (lista.get(i)).getElemento() + ")" +"["+ (lista.get(i).getFb()) + "]");
                 } else {
-                    System.out.print("\t");
+                    System.out.print("\t       ");
                 }
             }
+            System.out.println();
             System.out.println();
         }
     }
