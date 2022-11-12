@@ -236,6 +236,7 @@ public class ArvoreRubroNegra {
     public void printArvore() {
         ArrayList<No> lista = new ArrayList<>();
         organizador(raiz, lista);
+        System.out.println("----------------------------------------------------------------------------------------");
         System.out.println("A R V O R E:");
         for(int j=0; j <= height(raiz); j++) {
             for(int i = 0; i<size();i++) {
