@@ -1,4 +1,4 @@
-package RubroNegra;
+package rubroNegra;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package RubroNegra;
+package rubroNegra;
 
 public class TestRubroNegra {
     public static void main(String[] args) {
