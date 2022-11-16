@@ -1,6 +1,5 @@
 package rubroNegra;
 
-
 import java.util.ArrayList;
 
 public class ArvoreRubroNegra {
@@ -233,7 +232,81 @@ public class ArvoreRubroNegra {
         root().ehRubro(false);
     }
 
+
+    public void remove(Object k){
+        No aux = find(k, raiz);
+        if(k != aux.getElemento()) {
+            System.out.println("O Node com a chave "+ k + " nao existe!");
+        }
+        else {
+            if (isExternal(aux)) {
+                if (aux.getPai().getFilhoEsquerdo() == aux) {
+                    aux.getPai().setFilhoEsquerdo(null);
+                } else {
+                    aux.getPai().setFilhoDireito(null);
+                }
+            } else if (aux.getFilhoEsquerdo() == null) { //verifica se o aux tem filho direito
+                if (aux.getPai().getFilhoEsquerdo() == aux) { // verifica se é filho esquerdo
+                    aux.getPai().setFilhoEsquerdo(aux.getFilhoDireito());
+                    aux.getFilhoDireito().setPai(aux.getPai());
+                } else if (aux.getPai().getFilhoDireito() == aux) {
+                    aux.getPai().setFilhoDireito(aux.getFilhoDireito());
+                    aux.getFilhoDireito().setPai(aux.getPai());
+                }
+            } else if (aux.getFilhoDireito() == null) {
+                if (aux.getPai().getFilhoEsquerdo() == aux) {
+                    aux.getPai().setFilhoEsquerdo(aux.getFilhoEsquerdo());
+                    aux.getFilhoEsquerdo().setPai(aux.getPai());
+                } else if (aux.getPai().getFilhoDireito() == aux) {
+                    aux.getPai().setFilhoDireito(aux.getFilhoEsquerdo());
+                    aux.getFilhoEsquerdo().setPai(aux.getPai());
+                }
+
+            } else { // v possui os 2 filhos.
+                No min;
+                min = aux;
+                min = min.getFilhoDireito();
+                while (min.getFilhoEsquerdo() != null) { //encontrar o menor a direita
+                    min = min.getFilhoEsquerdo();
+                }
+                size++;
+                remove(min.getElemento());
+                aux.setElemento(min.getElemento());
+            }
+            size--;
+        }
+    }
+
+    public void CheckRemove(No novo) {
+        No irmao;
+
+        while (novo != raiz && !novo.isRubro()) {
+            if (novo == novo.getPai().getFilhoEsquerdo()){
+
+                irmao = novo.getPai().getFilhoDireito();
+
+                if (irmao.isRubro()) { // situação 3 - caso 1
+                    irmao.ehRubro(false);
+                    novo.getPai().ehRubro(true);
+                    leftRotation(novo.getPai());
+                    irmao = novo.getPai().getFilhoDireito();
+                }
+                if (!irmao.getFilhoEsquerdo().isRubro() && !irmao.getFilhoDireito().isRubro()) {
+
+                } else {
+
+                }
+
+            } else {
+
+            }
+        }
+    }
+
+
     public void printArvore() {
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_RESET = "\u001B[0m";
         ArrayList<No> lista = new ArrayList<>();
         organizador(raiz, lista);
         System.out.println("----------------------------------------------------------------------------------------");
@@ -242,7 +315,7 @@ public class ArvoreRubroNegra {
             for(int i = 0; i<size();i++) {
                 if(depth(lista.get(i)) == j) {
                     if ((lista.get(i)).isRubro()) {
-                        System.out.print("(" + (lista.get(i)).getElemento() + ")" + "[R]");
+                        System.out.print(ANSI_RED+"(" + (lista.get(i)).getElemento() + ")" + "[R]"+ANSI_RESET);
                     } else {
                         System.out.print("(" + (lista.get(i)).getElemento() + ")" + "[N]");
                     }
