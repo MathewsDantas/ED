@@ -33,9 +33,13 @@ public class TestRubroNegra {
         rn.remove(3);
         rn.printArvore();
         System.out.println("Removido o 3");
-        rn.remove(10);
+        rn.remove(8);
         rn.printArvore();
-        System.out.println("Removido o 10");
+        System.out.println("Removido o 8");
+        rn.remove(11);
+        rn.printArvore();
+        System.out.println("Removido o 11");
+
 
     }
 }
