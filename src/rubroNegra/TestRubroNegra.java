@@ -20,14 +20,22 @@ public class TestRubroNegra {
         rn.printArvore();
         rn.insert(9);
         rn.printArvore();
-
+        rn.insert(10);
+        rn.printArvore();
+        rn.insert(11);
+        rn.printArvore();
+        rn.insert(12);
+        rn.printArvore();
 
         rn.remove(2);
         rn.printArvore();
-        System.out.println("Removido o 2");
-        rn.remove(8);
+        System.out.println("Removido o 2"); // situacao 3 caso4
+        rn.remove(3);
         rn.printArvore();
-        System.out.println("Removido o 8");
+        System.out.println("Removido o 3");
+        rn.remove(10);
+        rn.printArvore();
+        System.out.println("Removido o 10");
 
     }
 }

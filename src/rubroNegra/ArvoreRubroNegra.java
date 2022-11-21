@@ -7,55 +7,49 @@ public class ArvoreRubroNegra {
     public static No raiz;
     public int size;
 
-    public ArvoreRubroNegra(){
+    public ArvoreRubroNegra() {
 
     }
 
-    public ArvoreRubroNegra(Object v){
+    public ArvoreRubroNegra(Object v) {
         raiz = new No(v);
         raiz.ehRubro(false);
         size = 1;
     }
 
-    public No root()
-    {
+    public No root() {
         return raiz;
     }
 
-    public boolean isInternal(No v)
-    {
+    public boolean isInternal(No v) {
         return (v.getFilhoEsquerdo() != null || v.getFilhoDireito() != null);
     }
 
-    public boolean isExternal(No v)
-    {
+    public boolean isExternal(No v) {
         return (v.getFilhoEsquerdo() == null && v.getFilhoDireito() == null);
     }
 
-    protected static boolean hasLeft(No v){
+    protected static boolean hasLeft(No v) {
         return v.getFilhoEsquerdo() != null;
     }
 
-    protected static boolean hasRight(No v){
+    protected static boolean hasRight(No v) {
         return v.getFilhoDireito() != null;
     }
 
-    public boolean isRoot(No v)
-    {
+    public boolean isRoot(No v) {
         return v == raiz;
     }
 
-    public int size(){
+    public int size() {
         return size;
     }
 
-    public boolean isEmpty()
-    {
+    public boolean isEmpty() {
         return false;
     }
 
-    public No parent(No v)
-    {
+    public No parent(No v) {
         return v.getPai();
     }
 
@@ -66,13 +60,12 @@ public class ArvoreRubroNegra {
             return 1 + depth(v.getPai());
     }
 
-    public int height(No v){
-        if(isExternal(v)){
+    public int height(No v) {
+        if (isExternal(v)) {
             return 0;
-        }
-        else {
+        } else {
             int h1 = 0;
-            if (hasLeft(v)){
+            if (hasLeft(v)) {
                 h1 = 1 + height(v.getFilhoEsquerdo());
             }
             int h2 = 0;
@@ -83,82 +76,74 @@ public class ArvoreRubroNegra {
         }
     }
 
-    public No find(Object k, No v){
-        if (isExternal(v)){
+    public No find(Object k, No v) {
+        if (isExternal(v)) {
             return v;
         }
-        if ( (int) k < (int) v.getElemento()){
-            if (hasLeft(v)){
+        if ((int) k < (int) v.getElemento()) {
+            if (hasLeft(v)) {
                 return find(k, v.getFilhoEsquerdo());
             }
             return v;
-        }
-        else if ( k == v.getElemento()){
+        } else if (k == v.getElemento()) {
             return v;
-        }
-        else if ( (int) k > (int) v.getElemento()){
-            if (hasRight(v)){
-                return find(k , v.getFilhoDireito());
+        } else if ((int) k > (int) v.getElemento()) {
+            if (hasRight(v)) {
+                return find(k, v.getFilhoDireito());
             }
             return v;
         }
         return v;
     }
 
-    public static void rightRotation(No no){
+    public static void rightRotation(No no) {
         No novoPai = no.getFilhoEsquerdo();
         if (hasRight(novoPai)) {
             no.setFilhoEsquerdo(novoPai.getFilhoDireito());
             no.getFilhoEsquerdo().setPai(no);
             novoPai.setFilhoDireito(no);
-        }
-        else {
+        } else {
             novoPai.setFilhoDireito(no);
             no.setFilhoEsquerdo(null);
         }
-        if (no != raiz){
-            if (no == no.getPai().getFilhoDireito()){
+        if (no != raiz) {
+            if (no == no.getPai().getFilhoDireito()) {
                 no.getPai().setFilhoDireito(novoPai);
-            }
-            else {
+            } else {
                 no.getPai().setFilhoEsquerdo(novoPai);
             }
             novoPai.setPai(no.getPai());
-        }
-        else { // o novoPai será a nova raíz
+        } else { // o novoPai será a nova raíz
             raiz = novoPai;
         }
         no.setPai(novoPai);
     }
 
-    public static void leftRotation(No no){
+    public static void leftRotation(No no) {
         No novoPai = no.getFilhoDireito();
         if (hasLeft(novoPai)) {
             no.setFilhoDireito(novoPai.getFilhoEsquerdo());
             no.getFilhoDireito().setPai(no);
             novoPai.setFilhoEsquerdo(no);
-        }
-        else {
+        } else {
             novoPai.setFilhoEsquerdo(no);
             no.setFilhoDireito(null);
         }
-        if (no != raiz){
-            if (no == no.getPai().getFilhoDireito()){
+        if (no != raiz) {
+            if (no == no.getPai().getFilhoDireito()) {
                 no.getPai().setFilhoDireito(novoPai);
-            }
-            else {
+            } else {
                 no.getPai().setFilhoEsquerdo(novoPai);
             }
             novoPai.setPai(no.getPai());
-        }
-        else { // o novoPai será a nova raíz
+        } else { // o novoPai será a nova raíz
             raiz = novoPai;
         }
         no.setPai(novoPai);
 
     }
 
-    public void insert (Object v){
+    public void insert(Object v) {
 
         if (size() == 0) {
             raiz = new No(v);
@@ -166,12 +151,11 @@ public class ArvoreRubroNegra {
         No aux = find(v, raiz);
         No novo = new No();
         novo.setElemento(v);
-        if ( (int) v <= (int) aux.getElemento()){
+        if ((int) v <= (int) aux.getElemento()) {
             novo.setPai(aux);
             aux.setFilhoEsquerdo(novo);
             checkInsert(novo);
-        }
-        else {
+        } else {
             novo.setPai(aux);
             aux.setFilhoDireito(novo);
             checkInsert(novo);
@@ -186,13 +170,12 @@ public class ArvoreRubroNegra {
             if (novo.getPai() == novo.getPai().getPai().getFilhoEsquerdo()) { // Verifica se é filho esquerdo
                 tio = novo.getPai().getPai().getFilhoDireito(); // tio
 
-                if (tio != null && tio.isRubro()){ // se tio é rubro -> caso 2
+                if (tio != null && tio.isRubro()) { // se tio é rubro -> caso 2
                     novo.getPai().ehRubro(false); // pai passa a ser negro
                     tio.ehRubro(false); // tio passa a ser negro
                     novo.getPai().getPai().ehRubro(true);
                     novo = novo.getPai().getPai(); // condiçao para continuar, pois caso o avó tenha sido negro anteriormento deve ser feita uma nova checagem
-                }
-                else { // tio negro
+                } else { // tio negro
                     if (novo == novo.getPai().getFilhoDireito()) { // Verifica se é filho direito 3c
                         // dps da rotação o pai do novo passará a ser o filho do novo
                         No paiDoNovo = novo.getPai();
@@ -205,8 +188,7 @@ public class ArvoreRubroNegra {
                     rightRotation(avo); // 3a
                     No root = root();
                 }
-            }
-            else {
+            } else {
                 tio = novo.getPai().getPai().getFilhoEsquerdo();
 
                 if (tio != null && tio.isRubro()) { // se tio é rubro -> caso 2
@@ -214,8 +196,7 @@ public class ArvoreRubroNegra {
                     tio.ehRubro(false);
                     novo.getPai().getPai().ehRubro(true);
                     novo = novo.getPai().getPai(); // condiçao para continuar, pois caso o avó tenha sido negro anteriormento deve ser feita uma nova checagem
-                }
-                else {
+                } else {
                     if (novo == novo.getPai().getFilhoEsquerdo()) { // 3d
                         No paiDoNovo = novo.getPai();
                         rightRotation(paiDoNovo);
@@ -233,16 +214,16 @@ public class ArvoreRubroNegra {
     }
 
 
-    public void remove(Object k){
+    public void remove(Object k) {
         No aux = find(k, raiz);
         boolean antigo_cor = aux.isRubro(); // cor de quem eu removi
         boolean sucessor_cor = false;
+        boolean ehFilhoEsquedo = false;
         No sucessor_CheckRemove = null;
 
-        if(k != aux.getElemento()) {
-            System.out.println("O Node com a chave "+ k + " nao existe!");
-        }
-        else {
+        if (k != aux.getElemento()) {
+            System.out.println("O Node com a chave " + k + " nao existe!");
+        } else {
             if (isExternal(aux)) {
                 if (aux.getPai().getFilhoEsquerdo() == aux) {
                     aux.getPai().setFilhoEsquerdo(null);
@@ -278,8 +259,11 @@ public class ArvoreRubroNegra {
                     min = min.getFilhoEsquerdo();
                 }
                 // sucessor_CheckRemove = min.getPai();
-                sucessor_CheckRemove = aux; // sucessor
-                sucessor_cor = sucessor_CheckRemove.isRubro();
+                if (min == min.getPai().getFilhoEsquerdo()) {
+                    ehFilhoEsquedo = true;
+                }
+                sucessor_CheckRemove = min.getPai(); // sucessor
+                sucessor_cor = min.isRubro();
                 size++;
                 remove(min.getElemento());
                 aux.setElemento(min.getElemento());
@@ -287,127 +271,144 @@ public class ArvoreRubroNegra {
             size--;
 
             // Se o antigo e o sucessor forem rubros nd precisa ser feito
-            if (sucessor_CheckRemove != null && !antigo_cor )
-
-                CheckRemove(sucessor_CheckRemove); // Se o no sucessor for negro executa
+            if (sucessor_CheckRemove != null){
+                CheckRemove(sucessor_CheckRemove, sucessor_cor, antigo_cor, ehFilhoEsquedo);
+            }
 
         }
     }
 
-    public void CheckRemove(No novo) {
-        No irmao;
+    public void CheckRemove(No novo, boolean cor_sucessor, boolean cor_antigo, boolean ehFilhoEsquerdo) {
+        No irmao = null;
+        int cont = 0;
 
-        while (novo != raiz && !novo.isRubro()) {
-            if (novo == novo.getPai().getFilhoEsquerdo()){
+        if (!cor_antigo && !cor_sucessor ) { // Se o no sucessor e o antigo forem negros, executa
+            while (novo != raiz && !novo.isRubro()) {
+                if (novo == novo.getPai().getFilhoEsquerdo()) {
 
-                irmao = novo.getPai().getFilhoDireito();
-
-                if (irmao != null && irmao.isRubro()) { // situação 3 - Caso 1
-                    irmao.ehRubro(false);
-                    novo.getPai().ehRubro(true);
-                    leftRotation(novo.getPai());
-                    irmao = novo.getPai().getFilhoDireito();
-                } // A partir daqui poodemos considerar o 'novo' como sendo negro, visto que n entrou no primeiro If
-                if (irmao != null &&
-                        ( (irmao.getFilhoEsquerdo() == null && irmao.getFilhoDireito() == null) ||
-                                (!irmao.getFilhoEsquerdo().isRubro() && !irmao.getFilhoDireito().isRubro()) )) { // situação 3 - Caso 2
-                    if (!novo.getPai().isRubro()) { // Caso 2a
-                        irmao.ehRubro(true);
+                    if (ehFilhoEsquerdo) {
+                        irmao = novo.getFilhoDireito();
+                        cont++;
                     }
-                    else { // Caso 2b
-                        irmao.ehRubro(true);
-                        novo.getPai().ehRubro(false);
+                    else {
+                        irmao = novo.getFilhoEsquerdo();
+                        cont++;
                     }
-                    novo = novo.getPai(); // para verifica novamente subindo
-                } else {
+
+                    if (irmao != null && irmao.isRubro()) { // situação 3 - Caso 1
+                        irmao.ehRubro(false);
+                        novo.getPai().ehRubro(true);
+                        leftRotation(novo.getPai());
+                        irmao = novo.getPai().getFilhoDireito();
+                    } // A partir daqui poodemos considerar o 'irmao' como sendo negro, visto que n entrou no primeiro If
+                    if (irmao != null &&
+                            ((irmao.getFilhoEsquerdo() == null && irmao.getFilhoDireito() == null) ||
+                                    (!irmao.getFilhoEsquerdo().isRubro() && !irmao.getFilhoDireito().isRubro()))) { // situação 3 - Caso 2
+                        if (!novo.getPai().isRubro()) { // Caso 2a
+                            irmao.ehRubro(true);
+                            System.out.println("s");
+                        } else { // Caso 2b
+                            irmao.ehRubro(true);
+                            novo.getPai().ehRubro(false);
+                        }
+                        novo = novo.getPai();
+                    } else {
                         if (irmao.getFilhoEsquerdo().isRubro() && !irmao.getFilhoDireito().isRubro()) { // Então o esquerdo é rubro - Situação 3 - Caso3
                             irmao.getFilhoEsquerdo().ehRubro(false);
                             irmao.ehRubro(true);
                             rightRotation(irmao);
                             irmao = novo.getPai().getFilhoDireito();
                         }
-                        if (irmao.getFilhoDireito().isRubro()){// Então o filho direito é rubro - Situação 3 - Caso4
+                        if (irmao.getFilhoDireito().isRubro()) {// Então o filho direito é rubro - Situação 3 - Caso4
+                            System.out.println("s2");
                             irmao.ehRubro(novo.getPai().isRubro());
                             novo.getPai().ehRubro(false);
                             irmao.getFilhoDireito().ehRubro(false);
                             leftRotation(novo.getPai());
-                            novo = raiz;
+
                         }
-                }
-
-            } else {
-                irmao = novo.getPai().getFilhoEsquerdo();
-
-                if (irmao != null && irmao.isRubro()) { // situação 3 - Caso 1
-                        irmao.ehRubro(false);
-                        novo.getPai().ehRubro(true);
-                        rightRotation(novo.getPai());
-                        irmao = novo.getPai().getFilhoEsquerdo();
-                }
-                if (irmao != null &&
-                        ( (irmao.getFilhoEsquerdo() == null && irmao.getFilhoDireito() == null) ||
-                                (!irmao.getFilhoEsquerdo().isRubro() && !irmao.getFilhoDireito().isRubro()) ) ) { // situação 3 - Caso 2
-                    if (!novo.getPai().isRubro()) { // Caso 2a
-                        irmao.ehRubro(true);
                     }
-                    else { // Caso 2b
-                        irmao.ehRubro(true);
-                        novo.getPai().ehRubro(false);
-                    }
-                    novo = novo.getPai();
+
                 } else {
-                    if ( irmao.getFilhoDireito().isRubro() && !irmao.getFilhoEsquerdo().isRubro()) { // Então o direito é rubro - Situação 3 - Caso3
-                        irmao.getFilhoDireito().ehRubro(false);
-                        irmao.ehRubro(true);
-                        leftRotation(irmao);
-                        irmao = novo.getPai().getFilhoEsquerdo();
-                    }
-                    if (irmao.getFilhoEsquerdo().isRubro()){// Então o filho esquerdo é rubro - Situação 3 - Caso4
-                        irmao.ehRubro(novo.getPai().isRubro());
-                        novo.getPai().ehRubro(false);
-                        irmao.getFilhoEsquerdo().ehRubro(false);
-                        rightRotation(novo.getPai());
-                        novo = raiz;
+                    irmao = novo.getPai().getFilhoEsquerdo();
+
+                    if (irmao != null) {
+
+                        if (irmao.isRubro()) { // situação 3 - Caso 1
+                            irmao.ehRubro(false);
+                            novo.getPai().ehRubro(true);
+                            rightRotation(novo.getPai());
+                            if (novo.getPai().getFilhoEsquerdo() != null) {
+                                irmao = novo.getPai().getFilhoEsquerdo();
+                            }
+                        }
+                        if ((irmao.getFilhoEsquerdo() == null && irmao.getFilhoDireito() == null) ||
+                                (!irmao.getFilhoEsquerdo().isRubro() && !irmao.getFilhoDireito().isRubro())) { // situação 3 - Caso 2
+                            if (!novo.getPai().isRubro()) { // Caso 2a
+                                irmao.ehRubro(true);
+                            } else { // Caso 2b
+                                irmao.ehRubro(true);
+                                novo.getPai().ehRubro(false);
+                            }
+                            novo = novo.getPai(); // para verificar novamente subindo
+
+                        } else {
+                            if (!irmao.getFilhoEsquerdo().isRubro() && irmao.getFilhoDireito().isRubro()) { // Então o direito é rubro - Situação 3 - Caso3
+                                irmao.getFilhoDireito().ehRubro(false);
+                                irmao.ehRubro(true);
+                                leftRotation(irmao);
+                                irmao = novo.getPai().getFilhoEsquerdo();
+
+                            }
+                            if (irmao.getFilhoEsquerdo().isRubro()) {// Então o filho esquerdo é rubro - Situação 3 - Caso4
+                                irmao.ehRubro(novo.getPai().isRubro());
+                                novo.getPai().ehRubro(false);
+                                irmao.getFilhoEsquerdo().ehRubro(false);
+                                rightRotation(novo.getPai());
+                                novo = raiz;
+
+                            }
+                        }
                     }
                 }
             }
         }
-        novo.ehRubro(false); // situação 2
+        novo.ehRubro(false); // situação 2 e em casos restritos pinta a raiz por garantia
+
     }
 
-
-    public void printArvore() {
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_RESET = "\u001B[0m";
-        ArrayList<No> lista = new ArrayList<>();
-        organizador(raiz, lista);
-        System.out.println("----------------------------------------------------------------------------------------");
-        System.out.println("A R V O R E:");
-        for(int j=0; j <= height(raiz); j++) {
-            for(int i = 0; i<size();i++) {
-                if(depth(lista.get(i)) == j) {
-                    if ((lista.get(i)).isRubro()) {
-                        System.out.print(ANSI_RED+"(" + (lista.get(i)).getElemento() + ")" + "[R]"+ANSI_RESET);
+        public void printArvore () {
+            final String ANSI_RED = "\u001B[31m";
+            final String ANSI_RESET = "\u001B[0m";
+            ArrayList<No> lista = new ArrayList<>();
+            organizador(raiz, lista);
+            System.out.println("----------------------------------------------------------------------------------------");
+            System.out.println("A R V O R E:");
+            for (int j = 0; j <= height(raiz); j++) {
+                for (int i = 0; i < size(); i++) {
+                    if (depth(lista.get(i)) == j) {
+                        if ((lista.get(i)).isRubro()) {
+                            System.out.print(ANSI_RED + "(" + (lista.get(i)).getElemento() + ")" + "[R]" + ANSI_RESET);
+                        } else {
+                            System.out.print("(" + (lista.get(i)).getElemento() + ")" + "[N]");
+                        }
                     } else {
-                        System.out.print("(" + (lista.get(i)).getElemento() + ")" + "[N]");
+                        System.out.print("     ");
                     }
                 }
-                else {
-                    System.out.print("     ");
-                }
+                System.out.println();
             }
-            System.out.println();
         }
-    }
 
-    private void organizador(No no, ArrayList<No> lista) {
-        if(no.getFilhoEsquerdo() != null) {
-            organizador(no.getFilhoEsquerdo(),lista);
+        private void organizador (No no, ArrayList < No > lista){
+            if (no.getFilhoEsquerdo() != null) {
+                organizador(no.getFilhoEsquerdo(), lista);
+            }
+            lista.add(no);
+            if (no.getFilhoDireito() != null) {
+                organizador(no.getFilhoDireito(), lista);
+            }
         }
-        lista.add(no);
-        if(no.getFilhoDireito() != null) {
-            organizador(no.getFilhoDireito(),lista);
-        }
-    }
+
 
 }
