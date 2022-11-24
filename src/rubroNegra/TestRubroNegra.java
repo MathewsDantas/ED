@@ -4,6 +4,7 @@ public class TestRubroNegra {
     public static void main(String[] args) {
 
         ArvoreRubroNegra rn = new ArvoreRubroNegra(1);
+        rn.printArvore();
         rn.insert(2);
         rn.printArvore();
         rn.insert(3);
@@ -26,6 +27,7 @@ public class TestRubroNegra {
         rn.printArvore();
         rn.insert(12);
         rn.printArvore();
+
 
         rn.remove(2);
         rn.printArvore();

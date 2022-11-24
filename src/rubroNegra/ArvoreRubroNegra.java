@@ -1,32 +1,18 @@
 package rubroNegra;
 
+
 import java.util.ArrayList;
 
-public class ArvoreRubroNegra {
+public class ArvoreRubroNegra extends ArvorePesquisa{
 
-    public static No raiz;
-    public int size;
 
     public ArvoreRubroNegra() {
-
+        super();
     }
 
     public ArvoreRubroNegra(Object v) {
-        raiz = new No(v);
-        raiz.ehRubro(false);
-        size = 1;
-    }
-
-    public No root() {
-        return raiz;
-    }
-
-    public boolean isInternal(No v) {
-        return (v.getFilhoEsquerdo() != null || v.getFilhoDireito() != null);
-    }
-
-    public boolean isExternal(No v) {
-        return (v.getFilhoEsquerdo() == null && v.getFilhoDireito() == null);
+        super(v);
+        super.root().ehRubro(false);
     }
 
     protected static boolean hasLeft(No v) {
@@ -37,66 +23,7 @@ public class ArvoreRubroNegra {
         return v.getFilhoDireito() != null;
     }
 
-    public boolean isRoot(No v) {
-        return v == raiz;
-    }
-
-    public int size() {
-        return size;
-    }
-
-    public boolean isEmpty() {
-        return false;
-    }
-
-    public No parent(No v) {
-        return v.getPai();
-    }
-
-    public int depth(No v) {
-        if (isRoot(v))
-            return 0;
-        else
-            return 1 + depth(v.getPai());
-    }
-
-    public int height(No v) {
-        if (isExternal(v)) {
-            return 0;
-        } else {
-            int h1 = 0;
-            if (hasLeft(v)) {
-                h1 = 1 + height(v.getFilhoEsquerdo());
-            }
-            int h2 = 0;
-            if (hasRight(v)) {
-                h2 = 1 + height(v.getFilhoDireito());
-            }
-            return h1 > h2 ? h1 : h2;
-        }
-    }
-
-    public No find(Object k, No v) {
-        if (isExternal(v)) {
-            return v;
-        }
-        if ((int) k < (int) v.getElemento()) {
-            if (hasLeft(v)) {
-                return find(k, v.getFilhoEsquerdo());
-            }
-            return v;
-        } else if (k == v.getElemento()) {
-            return v;
-        } else if ((int) k > (int) v.getElemento()) {
-            if (hasRight(v)) {
-                return find(k, v.getFilhoDireito());
-            }
-            return v;
-        }
-        return v;
-    }
-
-    public static void rightRotation(No no) {
+    public void rightRotation(No no) {
         No novoPai = no.getFilhoEsquerdo();
         if (hasRight(novoPai)) {
             no.setFilhoEsquerdo(novoPai.getFilhoDireito());
@@ -106,7 +33,7 @@ public class ArvoreRubroNegra {
             novoPai.setFilhoDireito(no);
             no.setFilhoEsquerdo(null);
         }
-        if (no != raiz) {
+        if (no != super.root()) {
             if (no == no.getPai().getFilhoDireito()) {
                 no.getPai().setFilhoDireito(novoPai);
             } else {
@@ -114,12 +41,12 @@ public class ArvoreRubroNegra {
             }
             novoPai.setPai(no.getPai());
         } else { // o novoPai será a nova raíz
-            raiz = novoPai;
+            root = novoPai;
         }
         no.setPai(novoPai);
     }
 
-    public static void leftRotation(No no) {
+    public void leftRotation(No no) {
         No novoPai = no.getFilhoDireito();
         if (hasLeft(novoPai)) {
             no.setFilhoDireito(novoPai.getFilhoEsquerdo());
@@ -129,7 +56,7 @@ public class ArvoreRubroNegra {
             novoPai.setFilhoEsquerdo(no);
             no.setFilhoDireito(null);
         }
-        if (no != raiz) {
+        if (no != super.root()) {
             if (no == no.getPai().getFilhoDireito()) {
                 no.getPai().setFilhoDireito(novoPai);
             } else {
@@ -137,20 +64,22 @@ public class ArvoreRubroNegra {
             }
             novoPai.setPai(no.getPai());
         } else { // o novoPai será a nova raíz
-            raiz = novoPai;
+            root = novoPai;
         }
         no.setPai(novoPai);
 
     }
 
-    public void insert(Object v) {
-
+    public No insert(Object v) {
+        System.out.println(size);
         if (size() == 0) {
-            raiz = new No(v);
+            root = new No(v);
         }
-        No aux = find(v, raiz);
+        No aux = find(v, super.root());
         No novo = new No();
         novo.setElemento(v);
+        System.out.println(aux.getElemento());
+        System.out.println(v);
         if ((int) v <= (int) aux.getElemento()) {
             novo.setPai(aux);
             aux.setFilhoEsquerdo(novo);
@@ -161,6 +90,7 @@ public class ArvoreRubroNegra {
             checkInsert(novo);
         }
         size++;
+        return novo;
     }
 
     public void checkInsert(No novo) {
@@ -210,12 +140,13 @@ public class ArvoreRubroNegra {
                 }
             }
         }
-        root().ehRubro(false);
+
+        root.ehRubro(false);
     }
 
 
     public void remove(Object k) {
-        No aux = find(k, raiz);
+        No aux = find(k, super.root());
         boolean antigo_cor = aux.isRubro(); // cor de quem eu removi
         boolean sucessor_cor = false;
         boolean ehFilhoEsquedo = false;
@@ -296,7 +227,7 @@ public class ArvoreRubroNegra {
         }
 
         if (!cor_antigo && !cor_sucessor ) { // Se o no sucessor e o antigo forem negros, executa
-            while (novo != raiz && !novo.isRubro()) {
+            while (novo != super.root() && !novo.isRubro()) {
                 if (novo == novo.getPai().getFilhoEsquerdo()) {
 
                     if (irmao != null && irmao.isRubro()) { // situação 3 - Caso 1
@@ -387,10 +318,10 @@ public class ArvoreRubroNegra {
             final String ANSI_RED = "\u001B[31m";
             final String ANSI_RESET = "\u001B[0m";
             ArrayList<No> lista = new ArrayList<>();
-            organizador(raiz, lista);
+            organizador(super.root(), lista);
             System.out.println("----------------------------------------------------------------------------------------");
             System.out.println("A R V O R E:");
-            for (int j = 0; j <= height(raiz); j++) {
+            for (int j = 0; j <= height(super.root()); j++) {
                 for (int i = 0; i < size(); i++) {
                     if (depth(lista.get(i)) == j) {
                         if ((lista.get(i)).isRubro()) {
