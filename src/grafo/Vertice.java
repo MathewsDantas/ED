@@ -38,5 +38,13 @@ public class Vertice {
         this.arestasSaida.add(aresta);
     }
 
+    public void removeArestaEntrada(Aresta aresta) {
+        arestasEntrada.remove(aresta);
+    }
+
+    public void removeArestaSaida(Aresta aresta) {
+        arestasSaida.remove(aresta);
+    }
+
 
 }
