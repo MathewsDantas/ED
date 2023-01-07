@@ -5,11 +5,13 @@ public class Aresta {
     private Double peso;
     private Vertice inicio;
     private Vertice fim;
+    private boolean dirigida;
 
-    public Aresta(Double peso, Vertice inicio, Vertice fim) {
+    public Aresta(Double peso, Vertice inicio, Vertice fim, boolean dirigida) {
         this.peso = peso;
         this.inicio = inicio;
         this.fim = fim;
+        this.dirigida = dirigida;
     }
 
     public Double getPeso() {
@@ -34,5 +36,13 @@ public class Aresta {
 
     public void setFim(Vertice fim) {
         this.fim = fim;
+    }
+
+    public boolean isDirigida() {
+        return dirigida;
+    }
+
+    public void setDirigida(boolean dirigida) {
+        this.dirigida = dirigida;
     }
 }

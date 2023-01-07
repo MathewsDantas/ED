@@ -34,8 +34,14 @@ public class Grafo {
         return novoVertice;
     }
 
+    public Aresta InserirAresta_Nao_Dirigida(Vertice v1, Vertice v2, Double peso) {
+        Aresta novaAresta = new Aresta(peso, v1, v2,false);
+        this.arestas.add(novaAresta);
+        return novaAresta;
+    }
+
     public void InserirAresta(Vertice inicio, Vertice fim, Double peso) {
-        Aresta novaAresta = new Aresta(peso, inicio, fim);
+        Aresta novaAresta = new Aresta(peso, inicio, fim,true);
         inicio.inserirArestaSaida(novaAresta);
         fim.inserirArestaEntrada(novaAresta);
         this.arestas.add(novaAresta);
@@ -125,5 +131,8 @@ public class Grafo {
 
         return todasArestas;
     }
-    
+
+    public boolean ehDirecionado(Aresta aresta) {
+        return aresta.isDirigida();
+    }
 }
