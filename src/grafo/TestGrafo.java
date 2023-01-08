@@ -5,17 +5,31 @@ import java.util.ArrayList;
 public class TestGrafo {
 
     public static void main(String[] args) {
-        Grafo grafo = new Grafo();
-        Vertice v1 = grafo.InserirVertice("G1");
-        Vertice v2 = grafo.InserirVertice("G2");
-        Vertice v3 = grafo.InserirVertice("G3");
-        Vertice v4 = grafo.InserirVertice("G4");
+        Grafo grafo_Nao_Dirigido = new Grafo();
 
-        grafo.InserirAresta(v1,v2, 10.0);
-        grafo.InserirAresta(v1,v3, 15.0);
-        grafo.InserirAresta(v2,v3, 20.0);
-        grafo.InserirAresta(v3,v4, 30.0);
-        grafo.InserirAresta(v4,v1, 40.0);
+        Vertice v1 = grafo_Nao_Dirigido.InserirVertice("V1");
+        Vertice v2 = grafo_Nao_Dirigido.InserirVertice("V2");
+        Vertice v3 = grafo_Nao_Dirigido.InserirVertice("V3");
+        Vertice v4 = grafo_Nao_Dirigido.InserirVertice("V4");
+
+        grafo_Nao_Dirigido.InserirAresta_Nao_Dirigida(v1,v2, "c1");
+        grafo_Nao_Dirigido.InserirAresta_Nao_Dirigida(v1,v3, "c2");
+        grafo_Nao_Dirigido.InserirAresta_Nao_Dirigida(v3,v4, "c3");
+        grafo_Nao_Dirigido.InserirAresta_Nao_Dirigida(v2,v4, "c4");
+
+        grafo_Nao_Dirigido.matrizIncidencia();
+
+        Grafo grafo = new Grafo();
+        v1 = grafo.InserirVertice("V1");
+        v2 = grafo.InserirVertice("V2");
+        v3 = grafo.InserirVertice("V3");
+        v4 = grafo.InserirVertice("V4");
+
+        grafo.InserirAresta(v2,v1, "c1");
+        grafo.InserirAresta(v1,v3, "c2");
+        grafo.InserirAresta(v4,v3, "c3");
+        grafo.InserirAresta(v4,v2, "c4");
+
 
         System.out.println("Todos os vertices do grafo:");
         ArrayList<Vertice> todosVertices = grafo.vertices();
@@ -40,6 +54,15 @@ public class TestGrafo {
         for (Aresta o: arestasEntrada) {
             System.out.println(o.getPeso());
         }
+
+        ArrayList<Aresta> todasArestasDoVertice = grafo.arestasIncidentes(v1);
+        System.out.println("\nTodas as arestas do vertice: "+ v1.getO());
+        for (Aresta o: todasArestasDoVertice) {
+            System.out.println(o.getPeso());
+        }
+
+
+        grafo.matrizIncidencia_Dirigido();
     }
 
 }

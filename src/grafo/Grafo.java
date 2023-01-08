@@ -34,13 +34,15 @@ public class Grafo {
         return novoVertice;
     }
 
-    public Aresta InserirAresta_Nao_Dirigida(Vertice v1, Vertice v2, Double peso) {
+    public Aresta InserirAresta_Nao_Dirigida(Vertice v1, Vertice v2, Object peso) {
         Aresta novaAresta = new Aresta(peso, v1, v2,false);
+        v1.inserirArestaSaida(novaAresta);
+        v2.inserirArestaEntrada(novaAresta);
         this.arestas.add(novaAresta);
         return novaAresta;
     }
 
-    public void InserirAresta(Vertice inicio, Vertice fim, Double peso) {
+    public void InserirAresta(Vertice inicio, Vertice fim, Object peso) {
         Aresta novaAresta = new Aresta(peso, inicio, fim,true);
         inicio.inserirArestaSaida(novaAresta);
         fim.inserirArestaEntrada(novaAresta);
@@ -79,7 +81,7 @@ public class Grafo {
                 return true;
             }
         }
-        for (Aresta a: v2.getArestasEntrada()) {
+        for (Aresta a: v1.getArestasEntrada()) {
             if (a.getInicio() == v2){
                 return true;
             }
@@ -109,7 +111,7 @@ public class Grafo {
             verticeOposto.removeArestaSaida(a);
         }
 
-        vertice = null;
+        this.vertices.remove(vertice);
         return aux;
     }
 
@@ -120,7 +122,7 @@ public class Grafo {
         inicio.removeArestaSaida(aresta);
         Vertice fim = aresta.getFim();
         fim.removeArestaEntrada(aresta);
-
+        this.arestas.remove(aresta);
         return aux;
     }
 
@@ -134,5 +136,64 @@ public class Grafo {
 
     public boolean ehDirecionado(Aresta aresta) {
         return aresta.isDirigida();
+    }
+
+    public void matrizIncidencia(){
+        ArrayList<Vertice> auxVertices = this.getVertices();
+        ArrayList<Aresta> auxArestas = this.getArestas();
+        System.out.println("--- MATRIZ DE INCIDENCIA ---");
+        for (Aresta a: auxArestas) {
+            System.out.print("   " + a.getPeso());
+        }
+        System.out.println();
+        for (Vertice vLinha: auxVertices) {
+            System.out.print(vLinha.getO() + "  ");
+            ArrayList<Aresta> arestasIncidentes = arestasIncidentes(vLinha);
+            for (Aresta a: auxArestas) {
+                if (arestasIncidentes.contains(a))
+                {
+                    System.out.print("1    ");
+                }
+                else
+                {
+                    System.out.print("0    ");
+                }
+
+            }
+            System.out.println();
+        }
+    }
+
+    public void matrizIncidencia_Dirigido(){
+        ArrayList<Vertice> auxVertices = this.getVertices();
+        ArrayList<Aresta> auxArestas = this.getArestas();
+        System.out.println("--- MATRIZ DE INCIDENCIA DIRIGIDO ---");
+        for (Aresta a: auxArestas) {
+            System.out.print("    " + a.getPeso());
+        }
+        System.out.println();
+        for (Vertice vLinha: auxVertices) {
+            System.out.print(vLinha.getO() + "  ");
+            ArrayList<Aresta> arestasIncidentes = arestasIncidentes(vLinha);
+            for (Aresta a: auxArestas) {
+                if (arestasIncidentes.contains(a))
+                {
+                    if (a.getInicio() == vLinha)
+                    {
+                        System.out.print("-1    ");
+                    }
+                    else
+                    {
+                        System.out.print("+1    ");
+                    }
+                }
+                else
+                {
+                    System.out.print(" 0    ");
+                }
+
+            }
+            System.out.println();
+        }
     }
 }

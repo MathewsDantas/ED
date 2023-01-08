@@ -2,19 +2,19 @@ package grafo;
 
 public class Aresta {
 
-    private Double peso;
+    private Object peso;
     private Vertice inicio;
     private Vertice fim;
     private boolean dirigida;
 
-    public Aresta(Double peso, Vertice inicio, Vertice fim, boolean dirigida) {
+    public Aresta(Object peso, Vertice inicio, Vertice fim, boolean dirigida) {
         this.peso = peso;
         this.inicio = inicio;
         this.fim = fim;
         this.dirigida = dirigida;
     }
 
-    public Double getPeso() {
+    public Object getPeso() {
         return peso;
     }
 
